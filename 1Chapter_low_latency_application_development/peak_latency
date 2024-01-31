@@ -1,0 +1,3 @@
+Peak latency is an important metric for systems where a single large outlier in performance can have a devestationg impact on the system. 
+Large values of peak latency can also significantly influence the mean latency metric of system. 
+

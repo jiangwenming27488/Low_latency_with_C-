@@ -1,0 +1,2 @@
+Network packet loss is an inescapable fact of transmitting packets over the network. 
+Network packet loss reduces the effective bandwith and causes retansmission and recovery protocols, which introduce additional delays. 

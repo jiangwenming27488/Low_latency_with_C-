@@ -1,0 +1,3 @@
+Latency is defined at the time delay between when to task is started to the time when the task is finished. 
+Low latency application are applications that execute tasks and respond or return results as quickly as possible.
+

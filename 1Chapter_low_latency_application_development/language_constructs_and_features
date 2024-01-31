@@ -1,0 +1,11 @@
+I know you already know this but its good to have it all in one place to look at if your building things and need ideas: 
+
+	1) Portability: C++ is highly portbale and can build applications that can be complied for a lot of differenct OS, platforms, CPU architecture, basiclly run every hardware you use. From your computer, phone, and IoTs. 
+
+	2) Compiler Optimizations:since the developers complete source code is compiled into the final executable binary, compilers have an opportunity to holistically analyze all the objects and code paths (if you used CMAKE then you understand how useful it is to donwload a library and just point to the path and it works it automation magic. WONDERFULLY-GREAT)(just imagen having to type /home/user/Documents/pytorch::Pytorch::vector<doubles> everytime you call that function)
+
+	3) Staticlly typed: it helps when avoiding bugs and makes it faster. 
+
+	4) Multiple paradigms: C++ does not force the developer to follow a specfic programming paradigm.
+
+	5) Libraries: C/C++ libraries are all game out the box. Although you can download great 3rd party libraries like Shogun, dlib, Pytorch, and sharkml. the developers of theses libraries are have put extra work into making them as helpful as possible and they are the type of developers that can build an AAA game worth buying with no day one fixes in about a week. They invented the wheel so we can drive cars on the moon. No I'm not over stating it but understating how important these libraries are.  

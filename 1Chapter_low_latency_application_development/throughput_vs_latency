@@ -1,0 +1,6 @@
+Throughput is defined as how much work gets done in a certain period of time, and latency  is how quickly a sing task is completed. 
+To imporve throughput, the usual approach is to introduce parallelism and add additional computing, momery, and networking resources. 
+Not that each individual task might not be processed as quickly as possible, but overall, more tasks will becompleted after a certain amount of time. 
+This is because, while being processed individually, each task might take longer than in a low latency setup, but the parallelism boosts throughtput over a set of tasks. 
+Latency, on the other hand, is measured for each individual task from beginning to finish, even if fewer tasks are excuted overall. 
+

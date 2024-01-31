@@ -1,0 +1,14 @@
+Internet of things (IoT) and machine-to-machine (M2M) applications are based on connecting devices to collect, store and exchange data with each other automatically. 
+Overall, while IoT and M2M are simialer in nature, there are some differences around aspects such as automatically. 
+Overall, while IoT and M2M are similar in nature, there are some differences around aspects such as networks, scalability, interoperablitly, and human interactions. 
+
+IoT is a broad term that refers to connectiong different physical devices togeather. 
+IoT devices are generally actuators and sensors that are embedded inside other larger devices such as smart thermostats, refrigerators, doorbells, cars, smart watches, TVs, and medical devices. 
+These devices operate on platforms with limited computing resources, power requirements, and minimal available memory resources. 
+
+M2M is a communication method where multiple machines interact with each other usig wried or wireless connections without any human oversight or interaction. 
+The point here is that internet connectivity is not necessary for M2M. 
+So IoT is a subset of M2M, but M2m is a broad universe of M2M communication-based systems. 
+M2M technology is used in deffernet applications such as security, tracking and tracing, automation, manufacturing, and facility managment. 
+
+

@@ -1,0 +1,8 @@
+compared to other popular programming languages such as Python, Java, and so on, C++ is low level so it's extremely close to the hardware. 
+This is especially useful when the software is tightly coupled with the target hardware it runs on and possibly even in cases where low-level support is required. 
+Being extremely close to the hareware also means that there is a significant speed advantage when building systems in C++. 
+Especially in low latency applications such as high-frequency trading (HFT) where a few microseconds can make a huge difference, C++ is generally the established gold standard in the industry. 
+
+The software can access memory and objets in memory directly without needing extra abstractions that would slow it down. 
+This, however, does mean that the application developer will often have to explicitly manage the creation, ownership, destruction, and lifetime of objects instead of relying on the programming language to manage things for you as in Python or Java. 
+An extreme case of C++ being close to the hardware is that it is possible to call assembly instructions straight from C++ statements

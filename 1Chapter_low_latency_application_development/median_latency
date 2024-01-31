@@ -1,0 +1,3 @@
+Median latency is typically a better metric for expected response time of a system. 
+Since it is the median of the latency measurement observations, it excludes the impact of large outliers. 
+Due to this, it is sometimes preferred over the mean latency metric. 

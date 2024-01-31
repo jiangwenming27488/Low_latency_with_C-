@@ -1,0 +1,3 @@
+What this really means is that such applications will make sure that the expected performance latency for all kinds of different inputs or events has as little variance as possible. 
+It is impossible to achieve zero latency variance, but some choices can be made in data structures, alogrithms, code implementation, and setup to try to minimize this as much as possible. 
+

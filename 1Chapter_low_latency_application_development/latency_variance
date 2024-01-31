@@ -1,0 +1,3 @@
+For systems that require a latency profile that is as deterministic as possible, the actual variance of the performance latency is an important metric. 
+This is typically important where the expected latencies are quite predictable. 
+For systems with lw latency variance, the mean, median, and peak latencies are all expected to be quite close to each other. 

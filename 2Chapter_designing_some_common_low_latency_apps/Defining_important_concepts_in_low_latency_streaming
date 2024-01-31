@@ -1,0 +1,17 @@
+First define a few important concepts and terms when it comes to low latency streaming applications. 
+Let get started with a few basics and build up from there into more complex concepts. 
+
+	1) Latency in video streaming/ glass to glass: Video streaming is defined as audio-video content delivered in real time or near real time. 
+Latency is general refers to the time delay between an input event and the output event. 
+in the context of live video streaming applications, latency refers specifically to the time from when a live video stream hits the camera on the recording device and then get transported to the target audience's screens and get rendered and displayed there. 
+
+	2) Video distribution services and context delivery networks: video distribution service (VDS) is a fancy term for a relatively easy-to-understand concept. 
+A VDS basically means the system responsible for taking multipleincoming streams of video and audio from the sources and presenting thems to the viewers. CDN is a means of efficiently distributing context across the globe. 
+
+	3) Transcoding, transmuxing, and transrating: 
+		a) Transcoding refers to the process of decoding a media stream from one format (so lower-level details such as codec, video size, sampling rates, encoder formats, etc.) and possibly recoding it in a different format or with different parameters. 
+
+		b) Transmuzing is similar to transcoding but here, the delivery format changes without any changes to the encoding, as in the case of transcoding. 
+
+		c) Transrating is also similar to transcoding, but we change the video bitrate; usually, it is compressed to a lower value. 
+The video bitrate is the number of bits (or kilobits) being transferred per second and captures the information and quality in the video stream. 

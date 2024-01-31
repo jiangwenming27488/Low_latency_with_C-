@@ -1,0 +1,6 @@
+It is critical for low latency applications to use resources very efficiently. 
+Embedded applications are especially limited in time and memory resources. 
+In langs like java and Python that rely on automatic garbage collection, there is an element of non-determinism that is, the garbage collector can introduce large latenies in performance unpredictably. 
+Additionally, for systems that are very limited in memory, low level languages such as C/C++ can do special thing such as placing data at custom sections or addreses in memory through pointer. 
+In langs such as C/C++, the programmer is in charge of explicit creation, management, and deallocation of memory resources, allowing for deterministic and efficient use of resources. 
+

@@ -1,0 +1,3 @@
+As mentioned before, low latency and throughput are related but not identical. 
+For that reason, sometimes some applications that need the highest throughput possible might have some differences in design and implemenntation to maximize throughput. 
+The point is that maximumizing throguhput might come as the cost of sacrificing average performance latencies or increasing peak latencies to achieve that. 

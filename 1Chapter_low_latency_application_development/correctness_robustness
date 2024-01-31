@@ -1,0 +1,6 @@
+When we think of latency-sensitive applications, it is often the case that we think low latency is the single most important aspect of such applications. 
+But in reality, a huge requirement of such applications is correctness and we mean very high levels of robustness and fault tolerance. 
+Intuitively, this idea should make complete sense; these applications require very low latency to be successful, which then should tell you that these applications aslo have very high throughput and need to process huge amounts of inputs and produce a large number of outputs. 
+Hence, the system needs to achieve very close to 100% coreectness and be very robust as well for the application to be successful in their business area. 
+Additionally, the correctness and robustness requirements need to be maintained as the applications grows and changes during its lifetime. 
+

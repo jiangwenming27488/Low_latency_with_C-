@@ -1,0 +1,6 @@
+We use the term capped peak latency to refer to the requirement that there needs to be a well-defined upper threshold for the maximum possible latency the application can every encounter. 
+This behavior is important for all latency-sensitive applications, but most important for latency-critical applications. 
+But even in the general case, applications that have extremely high-performance latency for a handful of cases will typically destory the performance of the system. 
+WHat this really means is that the application needs to handle any input, scenario, or sequence of events and do so within a low latency period. 
+Of course, the performance to handle a very rare and specific scenario can possibly be much higher than the most likely case, but the point here is that it cannto be unbounded or unacceptable.
+

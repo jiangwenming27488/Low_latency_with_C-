@@ -1,0 +1,13 @@
+Measuring latencies in low latency video streaming applications is not extremely complicated, since the latency range we care about should at least be a few seconds to be preceptible to the end user as a delay or lag. 
+The easiest ways to measure end-to-end video latency are the following: 
+
+	1) The first place to start would be to use a clapperboard application. 
+A clapperboard is a tool used to synchronize video and audio during filmmaking, and apps are availiable to detect synchronization issues between two streams due to latency. 
+
+	2) Another option is to publish the video stream back to yourself to measure whether there are any latencies int the capturing, endcoding, decoding, and rendering steps by taking the network out of it. 
+
+	3) An obvious solution is to take a screenshot of two screens running the same live stream to spot differences. 
+
+	4) The best solution to measure live video streaming latencies is to add a timestamp to the video stream itself at the source and then the receiver can use that to determine the glass-to-glass latencies. Obviously, the clocks used by the sender and the receiver need to be synchronized with each other reasonably well. 
+
+

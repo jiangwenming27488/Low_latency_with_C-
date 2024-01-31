@@ -1,0 +1,5 @@
+Tick-to-trade (TTT) is similar to RTT and is a term most commonly used to electronic trading systems. 
+TTT is defined as the time from when a packet (usuallya market data packet) first hits a participant's infrastructure (trading server) to the time when the participant is done processing the packet and sends a packet out (order request) to the trading exchange. 
+So, TTT includes the time spent by the trading infrastructure to read the packet, process it, calculate trading signals, generated an order request in reaction to that, and put it on the wire. 
+Putting it on the wire typically means writing something to a network socket. 
+

@@ -1,0 +1,4 @@
+RTSP is an application layer protocol that was used for the low latency streaming of videos. 
+It also has playback capabilites to allow playing and pausing the video content and can handle mutliple data streams. 
+RTSP was replaced by modern protocls such as HLS and DASH because a lot of receivers did not support RTSP; it was incompatble with HTTP and lost popluarity 
+

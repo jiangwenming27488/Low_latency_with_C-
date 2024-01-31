@@ -1,0 +1,7 @@
+A latency-sensitive application is one in which, as performance latencies are reduced, it improves the business or profitablitlity. So, the system might still be functional and possibly profitable at higher performance latecies but can be significantly more porfitable if latencies are reduced. 
+Examples of such apps would be operating systems (OS), web browsers, databases, and so one. 
+
+A latency-critical application, on the other hand, is one that fails completely if performance latency is higher than a certain threshold. 
+The point here is that while latency-sensitive applications might only lose part of their profitablility at high latencies, latency-critical applications faill entirerly at high enough latencies. 
+Examples of such applications are traffic control systems, financial trading systems, autonomous vechicles, and some medical applications.
+

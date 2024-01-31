@@ -1,0 +1,16 @@
+With the modernization of electronic trading and the rise HFT, low latencies are more important than ever before for these applications. 
+
+Trading opportunities in modern electroic markets are extremely short-lived, so only the market participants that can process market data and fid such an oportunity and quickly send order in reaction to this can be profitable. 
+
+A market-making algorthm has orders in the market that other participants can trade against when needed. 
+
+A market making algorithm loses money when it is slow at modifying its active orders in the market. For instance, saying depending on market conditions, it is quite clear that the market prices are going to go up in the short term; a market making algorithm will try to move or cancel its sell orders if they are at risk of being executed since it no longer wants to sell at these prices. 
+
+
+For HFT, trading applications on the client's side can receive and process market data, analyze the information, look for opportunites, and send an order out to exchange, all within sub 10 microseconds latency, and using Field Programmable gate arrays (FPGAs), can reduce that to sub 1 microsecond latency. 
+
+While we have referred to tradint performance and revenue, low latencies are also important in order aspects of electronic trading businesses that might not be immediatley obvious. 
+
+Additionally, since a firm employs HFT stragegies across all these products and exchanges, the firm's position on each of these products changes rapidly all day long. 
+A real time risk management system needs to evaluate the firms constantly evolving exposure across all these products against market prices to track profits and losses and rish throughout the day. 
+

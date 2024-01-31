@@ -1,0 +1,26 @@
+There are two forms of latency -- the inital startup latency and then the lag between video frames once the live stream starts. 
+Typically for the user experience, a slightly longer startup latency is much preferred over lag between video frames, but there is usually a trade off in trying to reduce one latency over the other. 
+So, we need to undertand which metric is more important for a specific use case and adjust the design and technical details appropriately. 
+The following are the steps in the glass-to-glass journey from broadcaster tothe receivers: 
+
+	1) Camera capturing and processing the audio and video at the broadcaster
+
+	2) Video consumption and packaging at the broadcaster
+
+	3) Encoders transcoding, transmuxing, and transrating the context
+
+	4) Sending the data over the network over the appropriate protocol(s)
+
+	5) Distrubution over a VDS such as CDN 
+
+	6) Reception at the receivers and buffering 
+
+	7) Decoding the context on the viewer's advice 
+
+	8) Dealing with packet drops, network changes, and so on at the receiverend
+
+	9) Rendering of the audio video content on the viewer's device of choice
+
+	10) Possibly collecting interactive inputs(selections, audio, video, etc) from the viewer for interactive applications and sending them back to the broadcaster where needed 
+
+

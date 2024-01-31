@@ -1,0 +1,17 @@
+Optimizing trading server hardware: 
+	Getting powerful trading servers to support the low latency trading operations is a first step 
+
+
+Network interface Cards, switches, and kernal bypass: 
+	Trading servers that need to support ultra low latency trading applications need specialized network interface cards (NICs) and switches. 
+
+Understanding multithreading, locks, context switches, and CPU scheduling: 
+	It is sometimes incorrectly assumed that having an architecutre with a oarge number of threads is alwasy lower-latency, but this is not always true. Multithreading adds value in certain areas of low latency electroic trading systems
+
+Dynamically allocating memory and managing memory: 
+	Dynamic memory allocation is a request for memeory blocks for arbitrary sizes made at runtime. At a very high level, dynamic memeory allocations and deallocations are handled by the OS by looking throught a list of free memeory blocks and tyring to allocate a contiguous block as large as the program requested. Dynamic memory deallocations are handled by appending the freed blocks to the list of free blocks managed by the OS. 
+
+Static versus dynamic linking and compile time versus runtime: 
+	Linking is a compilation or traslation step in the process of converting high level programming language source code into machine code for the target architecutre. Dynamic linking is when the linker does not incorpaorate the code from libraries into the final binary at linking time. Instead, when the main application requires code from the shared libraries for the first time, then the resolutaion is performed at runtime. Static linking is when the linker arranges the application code and the code for the library dependencies into a single binary execuable file. The upside here is that the libraries are already linked at compile time so there is no need for the OS to find and resolve the dependencies at runtime startup by loading the dependent libraries before the application starts executing. 
+
+ 
