@@ -1,0 +1,6 @@
+Runtime polymorphism is a elegant solution when the member function that needs to be called will be determined at runtime instead of compile time. 
+"Virtual" functions are the key to implementing runtime polymorphism, but they have an additional overhead compared to non-veritual functions calls. 
+
+Inheritance in C++ is another important OOP concept but be careful when the inheritance structure gets too complicated since there are many subtle inefficiencies that can be introduced. 
+Chile classes inherit everysingle data member from their parent class, so the size of the child classes can become quite large and lead to poor chache performance. 
+

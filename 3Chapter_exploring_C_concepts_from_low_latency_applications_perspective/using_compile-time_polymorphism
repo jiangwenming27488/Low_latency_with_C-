@@ -1,0 +1,7 @@
+the alternative to using runtime polymorphism, which is to use templates to achieve compile-time polymorphism. 
+Templates are similar to acros, meaning they are expanded before compilation, and because of this, not only is the runtime overhead eliminated but it also unlocks additional compiler optimization opportunities. 
+Templates make the compiler machine code super-efficient but they come at the cost of additional source code complexity, as well as larger executable sizes. 
+
+The Curiously Recurring Template Pattern (CRTP) facilitates compile-time polymorphism. 
+Note that the syntax here is more complexted than using runtime polymorphism using "virtual" functions and the base class and derived class relationships are similar but slightly differnt using the CRTP. 
+

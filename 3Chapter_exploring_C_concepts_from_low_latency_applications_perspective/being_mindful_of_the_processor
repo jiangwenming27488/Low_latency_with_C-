@@ -1,0 +1,3 @@
+Modern processors have a lot of architectural and functional details that a low latency application developer should understand, especially a C++ developer since it allows very low level control. 
+Modern processors have multiple cores, larger and speciallized register banks, piplined instruction processing where instructions needed next are prefetched while executing the current one, instruction level parallelism, branch predictions, extended instructions sets to facilitate faster and specialized processing, and so on. 
+

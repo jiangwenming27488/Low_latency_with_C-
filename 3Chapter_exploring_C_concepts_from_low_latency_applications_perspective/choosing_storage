@@ -1,0 +1,7 @@
+An example of C++ optimization technique that levarages storage choice optimization is Small String Optimization (SSO). 
+SSO attempts to use local storage for short strings if they are smaller than a certain size (32 chars) instead of the default of dynamically allocated memory for string content storage. 
+
+In summary, you should think carefully about where the data gets stored during the execution of your program, especially in the critical sections. 
+We should try to use registers and local variables as much as possible an doptimize cache performance. 
+Use volatile, static, global, and dynamic memory only when necessary or when it does not affect performance on the critical path. 
+

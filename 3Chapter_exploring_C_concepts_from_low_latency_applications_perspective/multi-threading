@@ -1,0 +1,4 @@
+If low-latency applications use multi-threading, the threads and the interactions between these threads should be designed carefully. 
+Starting and stopping threads takes time, so it is best to avoid launching new threads when they are needed and instead use a thread pool of worker threads. 
+Task switching or context switching is when one threads is paused or blocked, and another thread starts executing in its place. 
+Context switching is very expensive since it requires the OS to save the state of the current thread, load the state of the next thread, start the procesing, and so on, and is usually accompanied by memory reads and writes, cache misses, instruction pipline stalls, and so on. 

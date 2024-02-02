@@ -1,0 +1,5 @@
+The modern C++ compiler is truly as fascinating piece of software. 
+There is an immense amount of effort invested into building these compiler to be robust and correct. 
+A lot of effort is also made to make them very intelligent in terms of the trasformations and optimizations they apply to the developers high level source code.
+Understanding how the compiler translates the developers code into machine instructions, how it tries to optimize the code, and when it fails is important for low latency application developers looking to squeeze as much performance out of their applications as possible. 
+We will discusss the working of the compiler and optimization opportunites extensivly in this chapter so that we can learn to work with the compiler instead of against it when it comes to optimizing our final applications representation. 

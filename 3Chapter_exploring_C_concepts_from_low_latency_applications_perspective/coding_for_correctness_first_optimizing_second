@@ -1,0 +1,4 @@
+For low-latency applications, correct behavoir of the application under different use cases and scenarios and robust handling of edge conditions is still the primary focus. 
+A fast application that does not do what we need is useless, so the best approach when it comes to developing a low-latency application is to first code for correctness, not speed. 
+Once the application works correctly, only then the focus should be shifted to optimizing the critical parts of the application while maintaining correctness. 
+This ensures that developers spend time focusing on the correct parts to optimize because it is common to find that our intuition on which pieces are critical to performance does not match what happens in practice. 

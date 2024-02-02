@@ -1,0 +1,5 @@
+The key points here are that the memory hierarchy works in such a way that if the CPU cannot find the data or instruction it needs next in the register, it goes to the L0 cache, and if it cannot find it there, goes to the L1 cache, L2, other cachesm and so on, then goes to the main memory in the order. Note that the storage is accessed from fastest to slowest, which also happens to be least ammount of space to most amount of space. 
+The art of effective low latency and cache friendly applications development relies on writing code that is cognizant of code and data access patterns to maximize the likeihood of finding data in the fastest form of storage possible. 
+This relies on maximizing the concepts of temporal locality and spatial locality. 
+These terms mean that data accessed recently is likely to be in the cache and data next to what we just accessed is likely to be in the cache, repectively. 
+

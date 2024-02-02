@@ -1,0 +1,12 @@
+We have frequently referrred to cache performance while discussing different uses of C++ features since accessing the main memory is significantly slower than the clock cycles used to execute CPU instructions or access registers or cache storage. 
+Here are som general points to keep in mind when trying to optimize cache and memory access: 
+
+	1) aligning data
+
+	2) accessing data
+
+	3) Using large data structures 
+
+	4) Grouping Variables together 
+
+	5) Grouping functions together

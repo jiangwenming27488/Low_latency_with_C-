@@ -1,0 +1,3 @@
+Dynamically allocated memory has several good use cases, specifically when the size of containers is not known at compile time and when they can grow or shrink in size during the application instance's life cycle. 
+Dynamically allocated memory is als important for objects that are very large and take up a lot of stack space. 
+Dynamically allocated memory can have a place in low-latency applications if allocation and deallocation are not done on the critical path and an allocated block of memory is used so that the cache performance is not hurt. 

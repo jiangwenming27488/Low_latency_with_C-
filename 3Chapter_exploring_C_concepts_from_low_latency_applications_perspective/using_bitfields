@@ -1,0 +1,4 @@
+Bitfields are jst structs where the developer controls the number of bits assigned to each member. 
+This makes the data as compact as possibe and greatly improves cache performance for many objects. 
+Bitfield memebers are also usually modified using bitmask operations, which are very efficient, as we have seen before. 
+Accessing the members of bitfields is less efficient than accessing the members of a ragular structure, so it is important to carefully assess whether using bitfields and improving the cache performance is worthwhile.

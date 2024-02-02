@@ -1,0 +1,3 @@
+Smart pointer are an important feature of modern C++ that offers safety, life cycle management, automatic memory management, and clear ownership control for dynamically allocated objects. 
+Smart pointers such as "std::unique_ptr", "std::shared_ptr", and "std::weak_ptr", use the Resource Acquisition is Initialization (RAII) C++ paradigm. 
+There is an extra cost associated with "std::shared_ptr" due to the reference counting overhead but generally, smart pointers are expected to add very little overhead to the entire program unless there are a lot of them. 

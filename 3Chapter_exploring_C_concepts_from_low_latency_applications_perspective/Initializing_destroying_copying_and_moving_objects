@@ -1,0 +1,4 @@
+Constructors and destructors for developer-defined classes should be kept as light and efficient as possible since they can be called without the developer expecting it. 
+Keeping these methods super-simple and small also allows the compiler to inline these methods to imporve performance. 
+The same applies to copy and move constructors, which should be kept simple, with using move constructors preferred over using copy constructors wherever possible. 
+In many cases where high levels of optimization are required, the developer can delete the default constructor and copy constructor to make sure unnecessary or unexpected copies of their objects are not being made.

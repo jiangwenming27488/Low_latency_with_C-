@@ -1,0 +1,12 @@
+Below is some of the most used form of jumps and branches in C++: 
+
+	1) "if-else" branching is the most common thing that comes to mind when discussing branching. 
+Long chains of "if-else" conditionals are best avoided, if possible, because it is diificult to prdict these correctly as they grow. 
+Keeping the number of conditions small and trying to structure them so they are more predictable is the way to optimize them. 
+
+	2) "for" and "while" loops are also types of branching that are typically predicted well if the loop count is rlatively small. This, of course, gets complicated with nested loops and loops containing hard-to-predict exit conditions. 
+
+	3) "switch" statements are braches with mutliple jump targets, so they can be very difficult to predict. 
+When label values are widely spread out, the compiler must use "switch" statements as long sequences of "if-else" branching trees. 
+An optimization technique that works well with "switch" statements is to assign case label values that increment by one and are arranged in ascending order because there is a very good chance they will get implemented as jump tables, which significantly more efficient. 
+

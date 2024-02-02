@@ -1,0 +1,6 @@
+A lot of C++ features are built around implicitly accessing class members through the "this" pointer, so access through references and pointers occurs very frequently regardless of whether the developer explicity does so or not. 
+Accessing objects through pointers and references is mostly as efficient as directly accessing the objects. 
+The big disadvantage of using references and pointers is that they take up an extra register for the pointer themselves and the other one consists of the extra dereference instructions to access the variable pointed to by the pointer value. 
+
+Pointer arithmertic is just as fast as integer arithmetic except computing the differences between pointers requires a division by the size of the object, which can potentially be very slow. 
+This is not necessarily a problem if the size of the type of object is a multiple of 2, which is quite often the case with promitive types and optimized structures.

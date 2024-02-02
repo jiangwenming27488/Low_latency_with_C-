@@ -1,0 +1,50 @@
+The compiler typically first performs local optimizations and then tries to globally optimize these smaller code sections. 
+It does so over several passes through the translated machine code during the pre-processing, compliation, linking, and optimization stages. 
+Broadly, most compiler optimization techniques have some common themes, some of which overlap and some of which conflict with each other: 
+	
+	1) Optimizing the common cases
+
+	2) minimizing branching
+
+	3) Reordering and scheduling instructions 
+
+	4) using special instructions depending on the architecutre 
+
+	5) vectorization 
+
+	6) strength reduction 
+
+	7) inlining
+		a) Saving the current state of variables and execution 
+		
+		b) Loading the variables and instructions from the function being called 
+
+		c) Executing them and possibly returning back values and resuming execution after the function call
+
+	8) Constant folding and constant propogation
+
+	9) Dead Code Elimination (DCE)
+
+	10) Common Subexpression Elimination (CSE) 
+
+	11) Peephole optimizations 
+
+	12) Tail call optimization
+
+	13) Loop unrolling 
+
+	14) Register variables 
+
+	15) Live range analyisi
+
+	16) Rematerialization
+
+	17) Algebraic reductions
+
+	18) Induction variables analyisis
+
+	19) loop invariant code movemnet 
+
+	20) Static single assignment (SSA) based optimizations
+
+	21) Devirtualization

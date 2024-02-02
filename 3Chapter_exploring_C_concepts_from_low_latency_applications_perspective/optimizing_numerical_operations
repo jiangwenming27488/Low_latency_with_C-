@@ -1,0 +1,9 @@
+Typically, double-precision calculations take about the same time as single-precision operations. 
+
+Compiler will try to rewrite and reduce expressions wherever possible to prefer faster operations such as rewriting divisions to be multiplications by reciproclas. 
+Multiplication and division by values that are powers of 2 are significantly faster because the compiler rewrites them to be bit-shift operations, which are much faster. 
+There is addidtional overhead when the compiler uses this optimization since it must handle signs and rounding errors. 
+Obviously, this only applies when the expressions involove values that can be determined to be powers of 2 at compile time. 
+When dealing with multi-dimensional arrays, for instance, the compiler converts multiplications into bitwise shift operations wherever possible. 
+
+

@@ -1,0 +1,19 @@
+There are numerous overheads associated with calling functions -- to overhead of fetching the function address and jumping to it, parssing the parameters to it and returning the results, setting up the stack frame, saving and restoring registers, exception handleing, possible latency in the code cache misses, and so on. 
+
+When breaking up the code base into functions, some general things consider to maximize the performance would be as followed: 
+
+	1) Thinking before creating an excessive number of functions
+
+	2) Grouping related functions together 
+
+	3) Link Time Optimization (LTO) or Whole Program Optimization (WPO)
+
+	4) Macros, inline functions, and template metaprogramming
+
+	5) Avoiding functions pointers
+
+	6) Passing function parameters by reference or pointers
+
+	7) Returning simple types from functions
+
+	8) avoiding recusive functions or replacing them with a loop
