@@ -1,0 +1,7 @@
+The code to add new elements to the queue is implemented in two parts: 
+	1) "getNextToWriteTo()", returns a pointer to the next element to write new data to. 
+
+	2) "updateWriteIndex()", increments the write index, "next_write_index_", once the element has been written to the slot provided. 
+
+We designed it insuch a way that, instead of having a single "write()" function, we provide the user with a pointer to the element and if the objects are quite large then not all of it needs to be updateded or overwritten. 
+Additionally, this design makes it much easier to deal with race conditions. 

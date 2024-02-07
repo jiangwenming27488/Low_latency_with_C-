@@ -1,0 +1,9 @@
+First, lets us formally define what a memory pool is and why we need one. 
+Many applications (including low latency apps) need to be able to handle many objects and an unknown number of objects. 
+By an unknown number of objects, we mean that the expected count of objects cannot be determined ahead of time, and it cannot be ascertained what the maximum number of objects will be. 
+Obviosuly, the maximum number of objects possible is what can fit inside the system's memory. 
+The traditional approach to handling these objects is to use dynamic memory allocations as needed. 
+The heap memory is considered the memory pool -- that is, the pool f memory to allocate from and deallocate to. 
+Unfortunately, these are slow, and we will control how the allocation and deallocation of memory happen in our system using ur own custom memory pool. 
+We define a memory pool as anything from which we can request additional memory or objects and return free memory or objects to. 
+By building our own custom memory pool, we can leverage the usage patterns and control the allocation and deallocation mechanisms for optimal performance. 

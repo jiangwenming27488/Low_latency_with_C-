@@ -1,0 +1,4 @@
+We have had several discussions on dynamic memory allocation, the steps the OS needs to perform, and why dynamic memory allocation is slow. 
+Dynamic memory allocation os so slow in fact that low latency applications actively try to avoid it as  much as possible on the critical path. 
+We cannot build useful applications without creating and deleting many objects at runtime, and dynamic memory allocation is too slow for low latency applications. 
+

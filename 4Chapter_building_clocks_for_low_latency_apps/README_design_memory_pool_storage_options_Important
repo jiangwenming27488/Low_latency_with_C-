@@ -1,0 +1,28 @@
+First, We need to decide how to store the elements inside the memory pool. 
+We have really two major choices here: 
+
+	1) Store them on the stack using something like an old-style array ("T[N]") or "std::array" (vector)
+
+	2) Store it on the heap using something like an old-style pointer ("T*") or something like "std::vector". 
+
+Depending on the size of the memory pool, the usage frequency, usage patterns, and the application itself, one choice might be better than the other. 
+For instance, it is possible that we expect to need a huge amount of memory in the memory pool, either becuase the objects it stores are large or there are many of them. 
+For such a case, heap allocation would be the preferred choice to accommodate the large memory requirements without impacting the stack memory. 
+if we expect very few objects or small objects, we should consider using the stack implmentation instead. 
+If we expect to access the objects rarely, putting them on the stack might encounter better cache performance, but for frequent access, either implementation should work equally well. 
+As with a lot of other choices, there decisions are always made by measuring performance in practice. 
+For memory pool, we will use "std::vector" and heap allocation while noting that it is not thread-safe. 
+
+We also need a varable to trick which blocks are free or in use. 
+Finally, we will need one last variable to track the location of the next free block to quickly serve allocation requests. 
+One important thing to note here is that we have two choices: 
+
+	1) We use two vecotrs -- one to track the objects and one to track the free or empty makers. 
+This solution is presented in the diagram (4.1); note that in this example, we assume that these two vectors are in ver different memory locations. 
+The point we are trying to make here is that accessing the free or empty marker and the object itself might cause cache misses because they are far away from each other. 
+
+	2) We maintain a sinle vector structures (its a stack because push_back is builtin but with a little more abstraction you can make use you can call from the front in and back end of the struc although it would cost a little very little more overhead and IDK given 10000 devices connecting its ok but say your Bank of America or Chase your checking billions a second. Can your hardware make up for thoses seconds when moving stocks?), and each structure stores both the object and variable to represent the free and empty flag. 
+
+The second choice is better from a cache performance perspective, because accessing the object and free marker placed right after the object is better than accessing two different locations in two different vectors that might be potentially far away from each other in memory. 
+This is also because, in almost all usage patterns, if we access the object, we access the free marker and vice versa. 
+

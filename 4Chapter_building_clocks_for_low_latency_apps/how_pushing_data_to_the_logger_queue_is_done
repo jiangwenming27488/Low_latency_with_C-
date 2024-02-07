@@ -1,0 +1,15 @@
+To push data to the logger queue, we will define a couple of overloaded "pushValue()" methods that handle different ypes of arguments. 
+Each method does the same thing(I always thought samething was one word), which is to push values one by one onto the queue. 
+One thing worthy of note here is that there are more efficient implmentations for what we are about to discuss (personal note: a priority queue would be 100x better but use so much more overhead). 
+	
+	1) We create a variant of "pushValue()" to push objects of type "LogElement", which will get called from the other "pushValue()" functions we will define. It basically writes to the next location in the lock-free queue and increments the write index.
+
+	2) The next simple variant of "pushValue()" is for a single char value, which basically just creates an object of type "LogElement", calls the "pushValue()" method we just discussed, and passes the "LogElement" object: 
+
+	3) Now, we create a variant of "pushValue()" for "const char*" - that is, a collection of chars. This implementation loops through the characters one at a time and calls the "pushValue()" we implemented previously.This is an area of potential improvement, where we could use a single "memcpy()" to copy over all the characters in the array instead of looping throught them. there are some edge casses we would need to handle around the wrapping of the indices at the end of the queue, 
+
+	4) Next, we create another variant of "pushValue()" for "const std::string&", which is quite straightforward and uses "pushValue()"
+
+	5) Last, we need to add variants of "pushValue()" for the different primitive types. They are very similar to the one we built for a single char value 
+
+At this point, we have achieved two goals - moved the disk output operation to the background logger thread and moved the task of formatting the primitive values into string format to the background thread.

@@ -1,0 +1,7 @@
+When the exact number of objects of a certain type that will be required is known ahead of time, you can decide to create exactly that number when needed. 
+In practice, there are many cases where the exact number of objects is not known ahead of time. 
+This means we need to create objects on the fly using dynamic memory allocation. 
+
+The solution we will use is to pre-allocate large blocks of memory at startup and serve out required amounts at runtime -- that is, do the memory allocation and deallocation steps ourselves from this storage pool. 
+This ends up performing significantly better for a lot of different reasons, such as beig able to limit the memory poool usage to certain components in our system instead of all processes running on the server. 
+We can also control the memory storage and allocation and deallocation algorithms, tuning them to perform optimally for our specific app. 

@@ -1,0 +1,4 @@
+Deallocations are a simple matter of finding the correct "objectBlock" in our internal "store_" that corresponds to the 'T' object being deallocated and marking the "is_free_" marker for that block to be "true". 
+Here, we use "reinterpret_cast" to convert "T*" to "objectBlock*", which is OK to do, since object 'T' is the first member in "objectBlock". THis should bow explain the assertion we added to the constructor in the Initialzing the memory pool section. 
+We also add an assertion here to make sure that tthe element that the user tries to deallocate belongs to this memory pool. 
+its better ways of handling deallocations check the networking in C repo text book examples are posted. 

@@ -1,0 +1,4 @@
+I expect you to have at least intermediate C++ programming experience, I will assume you understand the widely used C++ programming features well. 
+I also assune that you have some experience with networking programming in C++, since network programming is a huge topic and my specalty. 
+For this starting this chapter, I will use CMake and "Hidden In the Leaves" building systems, so I expect you to either understnad CMake, g++, "Hidden In the Leaves Methods", "Summonings" or some such build system to be able to build the code. 
+

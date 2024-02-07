@@ -1,0 +1,9 @@
+Logging is an important part of any application, whether it is logging general application behavoir, warnings, errors, or even performance statistics. 
+However, a lot of important logging output is actually from performance-critical components that are on a critical path. 
+
+A naive logging approach would be to output to the screen, while a slightly better approach would be for logs to be saved to one or more log files. 
+However, a few problems come up.
+Disk I/O is extramely slow and unpredictable, and string operations and fromatting themselves are slow. 
+For these reasons, performing these operations on performance-critical thread is a terrible idea, so we will build a solution to alleviate the downsides while preserving the ability to output logs as needed. 
+
+YOU  CAN FIND THE ANSER IN THE "desining_low_latency_logger" file.

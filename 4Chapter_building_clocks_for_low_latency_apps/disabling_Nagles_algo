@@ -1,0 +1,2 @@
+Nagle's algorithm is used to improve buffering in TCP sockets and prevent overhead associated with guaranteeing reliability on the TCP socket. 
+This is achieved by delaying some packets instead of sending them out immidealy 

@@ -1,0 +1,11 @@
+There are a lot opetions when it comes to transferring data between processes and/or threads. 
+Inter-Process Communication (IPC), such as mutexes, semaphores, signals, memory-mapping files, and shared memory, can be used for these purposes. 
+It also gets tricky when there is concurrent access to shared data and the important requiredment is to avoid data corription. 
+Another important requiresment is to make sure that the reader and writer have consistent views of the shared data. 
+To trnasfer imformation from one thread to another, the optimal way to d oso is through a data queue that both threads have access to. 
+Building a queue of data and using locks to synchronize in a concurrent access environment is an option here. 
+Due to the concurrent access nature of this design, locks or mutexes or something similar has to be used to prevent errors.
+Howevery, locks and mutexes are extremely inefficient and lead to context switches, which degrade performance tremendously for critical threads. 
+So, what we need is a lock-free queue to facilitate communciation between threads without the overhead of locks an context swithces. 
+Note that the lock-free queue we will build here is only to be used for Single Producer Single Cnsumer (SPSC) - that is, only one thread writes to the queue and only one thread consumes from the queue. 
+More complex use cases for lock-free queues will require additional complexity. 

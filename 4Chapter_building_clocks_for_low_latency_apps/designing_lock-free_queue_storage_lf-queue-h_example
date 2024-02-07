@@ -1,0 +1,17 @@
+For lock-free queues, we again have the option of either having the storage allocated on the stack or heap. 
+Here, we will agian choose "std::vector" and allocate memory on the heap. 
+Additionally, we create two "std::atomic" cariables: 
+	1) "next_write_index_" to track what index the next write to the queue will go to. 
+
+	2) "next_read_index_", is used to track what index the next unread element in the queue is located in. 
+
+The implementation is relatively straightforward because of our asumption that a single thread writes to the queue and a single thread reads from it. 
+Now, let us first design and implement the internal storage of the lock-free queue data structure. 
+"std::atomic" class lets us read, update, and write variables on a shared variable without using locks or mutexes, and it does so while preserving the order of operations. 
+
+
+
+The class holds a "std::vector" object "store_" of a 'T' template object type, which is a actual queue of data. 
+A "std::atomic<size_t> next_write_index_" varable tracks the index in this vector, where the next element will be written to. 
+Similarly, a "std::atomic<size_t> next_read_index_" variable tracks the index in this vector, where the next element to read or consumed is available. 
+There need to be the "std::atomic<>" type, since the reading and writing operations are performed from different threads. 

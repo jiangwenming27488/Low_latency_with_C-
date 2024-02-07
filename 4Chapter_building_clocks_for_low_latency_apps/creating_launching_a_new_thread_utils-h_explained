@@ -1,0 +1,5 @@
+The method defined for "thread_util.h" creates a new thread object, sets the thread affinity on the thread, and forwards the function and related arguments that the thread will run during its execution. 
+This is achieved in the "thread_body" lambda, which is passed to the constructor of "std::thread". 
+Note the use of variadic template arguments and perfect forwarding to allow this method to be used, running all kinds of functions, arbitrary types, and any number of arguments. 
+After creating the thread, the method waits till the thread either starts running successfully or fails because if failed to set thread affinity, which is what the call to "t->join()" does. 
+

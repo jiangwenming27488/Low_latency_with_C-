@@ -1,0 +1,7 @@
+Take a look at "setThreadCore()" in the file "thread_utils.h". 
+First, we use the "CPU_ZERO()" method to clear the "cpu_set_t" variable, whivch is just an array of flags. 
+Then, we use the "CPU_SET()" method to enable entry for the "core_id" we are trying to pin the core to. 
+Finally, we use the "pthread_setaffinity_np()" function to set the thread affinity and return "false" if that fails. 
+Note the use of "pthread_self()" here to get the "createAndStartThread()": 
+
+These code blocks belong to the "Common" namespace, as you will see when you look at the source file. 

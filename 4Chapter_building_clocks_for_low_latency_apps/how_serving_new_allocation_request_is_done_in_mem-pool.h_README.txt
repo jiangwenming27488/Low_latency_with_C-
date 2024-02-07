@@ -1,0 +1,20 @@
+Serving allocation requrest is a simple task of finding a block that is free in our memory pool storage, which we can do easily using the "next_free_index_" tracker. 
+Then, we update the "is_free_" marker for that block, initialize the object block of type 'T' using "placement new", and then update "next_free_index_" to point to the next available free block. 
+
+Note two thing -- the first is that we use "placement new" to return an object of type 'T' instead of memory block that is the same size as 'T'. This is not strictly necessary and can be removed if the user of the memory pool wants to take responsibility for constructing the object from the memory blck we return. 
+"placement new" in most compiler implementations might add an extra "if" check to confirm that the memory block provided to it is not null. 
+
+The second thing, which is more of a design choice for us to make depending on the application, is that we call "updateNextFreeIndex()" to update "next_free_index_" to point to the next available free block, which can be implemented in different ways other than the provided here. 
+To answer the question of which implementation is optimal is that it depends and needs to be measured in practice.
+Now, lets us first look at the "allocate()" method where, again, we use variadic template arguments to allow arbitrary arguments to be forwareded to the constrctor of 'T'. 
+Not that here we use the "placement new" operator to construct an object type 'T' with the given arguments from the memory block. 
+Remember that "new" is an operator that can also be overridden if needed (DO NOT OVERRIDE "new" those that can do that are on another level of programming) and the "placement new" operator kips the step that allocates memory and uses the provided memory block instead: 
+			(CODE HERE LOOK AT THE mem-pool.h)
+	
+Next, lets look at the "updateNextFreeIndex()" method next. 
+There are two things to note here first we have a branch for a case where the index wraps around the end. 
+While this adds an "if" condition here, with the "UNLIKELY()" specification and the expectation of our hardware branch predictor to always predict that the branch isn't taken, this should not hurt our performance in a meaningful way. 
+We can, of course, break up the loop into tow loops and remove that "if" condition if we really want to -- that is, the first loop loops till "next_free_index_ == store_.size()", and the second loop loops from 0 onwards. 
+
+Secondly, we added a check to detect and fail if there is ever a case where the memory pool is completely full. 
+There are obviously better ways to handle this practice that do not involve fail . 

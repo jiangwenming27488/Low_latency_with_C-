@@ -1,0 +1,5 @@
+Depending on the design of the system, different components might work together as a pipline to facilitate parallel proessing. 
+We will use the multi-threading framework in exactly  such way in our electronic trading systems. 
+Another use case is to pass off non-critical tasks such as logging onto disk, computing staticstics, and so on to a background thread. 
+
+

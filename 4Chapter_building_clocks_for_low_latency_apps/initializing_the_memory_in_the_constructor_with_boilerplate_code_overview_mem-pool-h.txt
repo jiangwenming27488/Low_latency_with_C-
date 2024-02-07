@@ -1,0 +1,9 @@
+Initializing our memory pool is quite straightforward -- we simply accept a parameter that specifies the initial size of our memory pool and initialize the vector to be large enough to accommondate that menay concurrently allocated objects. 
+We will no add functionality to resize the memory pool past its initial size, but that is a relatively straight forward extension to add if needed. 
+Note that this initial vector initialization is the only time the memeorypool allocates memory dynamically, so the memeory pool should be created before the excution of the critical path starts. 
+One thing to note here is that we add an assertion to make sure that the actual object of type 'T' is the first one in the "ObjectBlock" struct
+
+Now for some boilerplate code -- we will delete the default constructor, the copy constructor, and the move constructor methods. 
+We will do the same with copy assignment operator and the move assignment operator. 
+We do this so that theese methods are not accidentally called without our knowledge. 
+This is also the reson we made our constructor explicit to prohibit implicit conversions where we do not expect them 

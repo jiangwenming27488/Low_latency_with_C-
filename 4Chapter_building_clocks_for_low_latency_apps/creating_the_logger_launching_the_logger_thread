@@ -1,0 +1,22 @@
+IN the logger consgtructor, we will initialize the logger queue with an appropriate size, save "file_name_" for informational purposes, open the output log file object, and create and launch the logger thread. 
+Note that here we will exit if we ar unable to open the output log file or unable to create and launch the logger thread. 
+
+We will pass a method called "flushQueue()" that this logger thread will run. 
+As the name suggests, and in line with what we discussed, this thread will empty the queue of log data and write the data to the file. 
+The implementation of "flushQueue()" is simple if the atomic "running_" Boolean is "true", it runs in a loop, performing the following steps: 
+
+	1) it comsumes any new elements pushed to the lock-free queue, "queue_", it runs the loop performing steps. 
+
+	2) it consumes any new elements pushed to the lock-free queuen, "queue_", and writes them to the "file_" object we created. 
+
+	3) The "LogElement" objects in the queue and writes the correct member of the union to the file, depending on the type. 
+
+	4) the thread sleeps for a millisecond when the lock-free queue is empty and then checks again to see whether there are new elements to be written to disk. 
+
+The destructor for our logger class is important, next is its cleanup task steps: 
+
+	1) the distructor waits for the lock-free queue to be consumed by the logger thread, so it waits till it is empty. 
+
+	2) Once it is empty, it set the "running_" flag to be "false" so that the logger thread can finish its execution. To wait for the logger thread to finish execution that is return from the "flushQueue()" method, its calls  the "std::thread::join()" method on the logger thread. 
+
+	3) last it closes the "file_" object, which writes any buffered data onto the disk, and then we are done: 

@@ -1,0 +1,9 @@
+To build this low latency logging framework, we will create a background loggin thread whose only task is to write log lines to a log file on disk. 
+The idea here is to offload the slow disk I/O operations as well as string formatting operations away from the main performance-critical thread onto this background thread. 
+One thing to understand is that logging to disk does not have to be instanctaneous -- that is, most systems can tolerate some delay between an event happening and information pertinent to that event being logged to disk. 
+We will use the multi-threading function we created in the first section of this chapter to create this logger thread and assin it the task of writing to the log file. 
+
+To publish data that needs to be logged from the main performance-critical thread to this loggin thread, we will use the lock-free data queue we created in the previous section. 
+The way the logger will work is that instead of writing information directly to the disk, the performance-sensitive threads will simply push the information to this lock-free queue. 
+a logger thread will consume from the other end of this queue and write to the disk. 
+

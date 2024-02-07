@@ -1,0 +1,9 @@
+The logger has these 4 objects that are important: 
+
+	1) "std::ofstream" file object is the log file that data is written to. 
+
+	2) "LFQueue<LogElement>" object is the lock-free queue to transfer data from the main thread to the logger thread. 
+
+	3) "std::atomic<bool>" stops the logger thread's processing when needed, and "std::thread" object which is logger thread. 
+
+	4) "std::string" is the filename, wheich we provice purely for informational purposes
