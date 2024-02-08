@@ -1,0 +1,4 @@
+The market data protocol encoder component inside the market data publisher infrastructure is responsible for encoding the market data updates published by the matching engine. 
+The market data messaging format with some additional information. 
+This component also publishes the incremental market data updates to the UDP multicast strem configured for incremental streams. 
+

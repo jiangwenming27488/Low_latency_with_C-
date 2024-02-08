@@ -1,0 +1,12 @@
+Here is the design of the major subcomponents in the trading stratgy framework we will build. 
+Note that we use the terms trading strategy framework and trading engine interchangeably and they mean the same thing in the context of this repo - a collection of components to house and run automated tradig algorithms. 
+
+	1) Limit order book: The limit order book in the trading strategy framework is similar to the one that the exchange matching engine builds. 
+
+	2) Feature engine: Our feature engine will only support a single feature computed from the data available from our order book, and this single features will be used to drive our trading strategies. 
+
+	3) Trading strategy: The trading strategy is the component that finally makes the trading decisions based on a multitude of factors. The trading decisions depend on the trading algorithm itself, the feature values from the features engine, the state of the order book, the prices and FIFO position of the strategy's orders in the order book, risk evaluations from the risk manager, the state of the live orders from the order manager, and so on. 
+
+	4) Order Manager: The order manager component is an abstraction that hides the lower-level details of sending order requests, managing the states of active orders, handling in-flight conditions for these orders, handling responses from the exchange, handleing scenarios around partial and full executions of orders, and managing positions.  The order manager also builds and maintains a couple of different data structures to track the state of the strategy's order. There is some additional complexity in the order management since there are some cases where order requests are in flight from the market participant to the exchange and some events happen in the exchange matching engine at the same time. 
+
+	5) Risk manager: The risk manager tracks the different risk(i've personally seen some bad and just untrained risk managers around mccormick place and depaul universitly thats coming from personally having to do their job (example for both cases I was working at mccormick place and exposed both in a day and I was paying my bill at depaul when they exposed there R M )). 

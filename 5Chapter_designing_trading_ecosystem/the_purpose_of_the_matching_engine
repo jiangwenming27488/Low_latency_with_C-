@@ -1,0 +1,12 @@
+In the electronic trading ecosystem, there is a single exchange that is responsible for accepting and managing orders from numerous market participants. 
+The matching engine in this case accepts different kinds of orders that the participants are allowed to send for any given trading instrucment. 
+An order is simply a request sent by any market participant to the trading exchange to convey their intrest in buy or selling a tradeable product. 
+Every time a new order is received by the matching engine from the order gateway server infrastructure, it checks to see whether this new order crosses an existing order with an opposite side to see whether a trade occurs. 
+
+Limit orders are orders that can only execute at a price that is at, or better than, the price specified by the market participant. 
+
+It should be obvious by now that the matching engine performs the most critical task of performing matches between orders from different market participants and does so correctly and fairly(FIFO). 
+Orders that do not match immediately rest in the book and are referred to as passive orders. 
+These orders are eligible for matching when new orders come in with prices that cross the passive orders. 
+Such orders that cross the prices on passive orders are known as aggriessive orders. 
+The matching engine arranges all the passive orders sent by all market participants into a data structure that is aptly named the order book. 

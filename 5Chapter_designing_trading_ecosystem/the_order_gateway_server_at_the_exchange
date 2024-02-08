@@ -1,0 +1,3 @@
+The order gateway server at the exchange is responsible for accepting connections from market participants so that they can send requests for orders and receive notifications when there are updates to their respective orders. 
+The order gateway server is also responsible for translating messages between the matching engine format and the order gateway messaging protocol. 
+The network protocol used for the order gateway server is always TCP to enforce in-order delivery of messages and reliability. 

@@ -1,0 +1,16 @@
+The exchange components: 
+
+	1) Matching engine at the electronic trading exchange 
+
+	2) Order gateway server and protocol encoder and decoder at the trading exchange
+
+	3) Market data encoder and publisher at the exchange
+
+The trading client components: 
+
+	1) Market data consumer and decoder for a market participant interested in this market data. 
+
+	2) Order gateway encoder and decoder client in the market participant's system. 
+	3) Trading engine inside the participant's system.
+
+

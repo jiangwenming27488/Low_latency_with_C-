@@ -1,0 +1,4 @@
+This component is one of the most important components in a trading system since this is where intelligence is built. 
+I mean the system that processes normalized market data updates, builds a view into the market conditions, and computes trading analytics to find trading opportunities and execute trades. 
+This component relies on the market data consumer to receive decoded and normalized market data updates and uses the order gateway client component to send order requests to and recieve order responses from the exchange in a decoded and normalized format. 
+

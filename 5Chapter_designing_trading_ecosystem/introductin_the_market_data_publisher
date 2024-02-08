@@ -1,0 +1,5 @@
+The market data publisher at the trading exchange is responsible for communicating every change to the limit order book maintained by the matching engine to the market participants. 
+Compared to the order gateway, the difference here is that the market data publisher publishes public data meant for all participants, and it typically hides details of which order belongs to which participant to maintain fairness. 
+another differnece is that the order gateway infrastructure only communicates order updates to the market participants whose orders were impacted by the change and not to all market participants. 
+The market data publisher can use TCP or UDP to publish market data, but given the large valume of market data updates, UDP multicast is the preferred network-level protocol. 
+THe market data publisher is also responsible for converting the internal matching engine format into the market dat format before publishing the updates. 

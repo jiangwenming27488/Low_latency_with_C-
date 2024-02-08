@@ -1,0 +1,11 @@
+The exchange uses instrument update messages to infrom market participants about the different instruments available for trading. 
+Some exchanges support special types of instruments that the market participants can create on the fly, and these messages are used to inform participants about changes to such intruments. 
+Usually, these messages are used to inform participants about instruments metadata such as minimum price increments, tick size value, and more. 
+The minimum price increment is the minimum price difference in order prices. 
+In the examples we have seen so far, we assumed the minimum price increment to be .10. 
+The tick size value is the amount of memory made or lost when we buy and sell at prices that are apart by a single minium price incrment. 
+Very often, for products such as stocks, Exchange Trade Fund (ETFs), and so on, the tick size multiplier is just 1, meaning the profit or loss is simply the sell price minus the buy price for a pair of trades. 
+ETF's are securities that trade at the exchange and are an investment option which consists of a basket of securities, by investing in an ETF, you invest in a bunch of assets that make up that ETF. 
+But for some leveraged products such as futures, options, and so on, this tick size multiplier can be something other than 1, and the final profit or loss is computed as the below code: 
+
+"((sell-price - buy_price) / min-price-increment) * trade-qty * tick-size". 

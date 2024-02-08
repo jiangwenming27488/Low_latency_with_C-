@@ -1,0 +1,10 @@
+The market participant needs to construct the limit order book based on the market data that the exchange publiches. 
+Not that it is not strictly necessary that the client must build the entire order book, especially if the trading strategies do not require infromation that is that granular. 
+One thing to reiterate here is that the order book that the client builds is slightly different from the one that the exchange maintains because the client does not usually know which order belongs to which market participant. 
+Additionally, depending on the exchange, a few more pieces of infromation might be hidden from the market participants, such as which order are icebergs, which new order are stop orders, self-match-prevention considerations, and so on. 
+Iceberg order are orders that have a large hidden quantity than what is displayed in the public market data. 
+Stop orders are orders that lie dormant and then become active when a specific price trades.
+Self-match prevention(SMP) is a constraint that prevents a client from trading against themselves, which some exchanges choose to enforce in the matching engine. 
+Another thing to understand is that the book that the trading participants have is a slightly delayed version of the order book that the matching engine has. 
+This is because there is some latency between the matching engine updating its order book to the trading client getting the market updates corresponding to the changes and updating their book. 
+

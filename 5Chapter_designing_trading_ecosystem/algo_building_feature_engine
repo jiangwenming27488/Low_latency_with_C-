@@ -1,0 +1,6 @@
+Sophisticated trading strategies need to build additional intelligence over just the order book. 
+These trading strategies need to implement various trading signals and intelligence on top of the prices, liquidity, trade transactions, and order book published by the exchange. 
+THe idea here is to build intelligence, which can be a combination of technical analysis style indicators, staticstical predictive signals and models, and market mircostructure-related statistical edges.
+There are many different terms used in practice for such predictive edges - trading signals, indicators, features, and so on. 
+The component inside the trading system that constructs and wires together a collection of such predictive signals is trading strategties, but to reiterate here that feature engines can get quite sophisticated and complicated depending on the strategy's complexity. 
+ 

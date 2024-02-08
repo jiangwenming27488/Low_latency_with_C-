@@ -1,0 +1,3 @@
+The order gateway client component is the complement of the exchange order gateway server on the market participants' side. 
+The responsibility of this component is to establish and maintain TCP connections with the exchange's order gateway infrastructure. 
+It is also responsible for encoding strategy order requests in the correct exchange order messaging protocol and decoding exchange responses into an internal format that the trading engine uses. 

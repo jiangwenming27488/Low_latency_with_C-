@@ -1,0 +1,9 @@
+The point here is thatthis public market data that is available to everyone that has access to and subscribed to the market data stream. 
+Below I'm going to list the other interface that theexchange uses to communicate with market participants about updates for their orders - the order gateway interfaces. 
+There are a few key differences between the information provided by the public market data feed and the information provided by the order gateway infrastructure: 
+
+	1) Understanding the difference in network protocols: market data publisher uses the UDP protocol at the netwrk level, and the order gateway infrastructure uses the TCP protocol at the network level in their connections with market participants. 
+
+	2) Differtiating between public and private information: The market data publisher publishes public information while hiding some sensitive information, such as which client and order belongs to or which clients participated in a matching transaction. The order gateway server, on the other hand, only publishes order update notifications to the clients who own the orders that are being updated. 
+
+	3) Sending order requests for participants' orders: Another major difference that should be obvious by now is that the order gateway component sending facilitates a bi-directional communication channel. 

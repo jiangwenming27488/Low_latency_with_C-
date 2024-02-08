@@ -1,0 +1,6 @@
+The trading engine is the brain of a market participant's trading system. 
+This is where intelligence resides, and where the trading decisions are made. 
+This component is responsible for consuming the normalized market data updates from the market data consumer component. 
+It will usually also build the complete limit order book to reflect the state of the market or, at the very least, a simplified variant of the order book, depending on the requirements of the trading strategies. 
+It usually also builds analytics on top of the liquidity and prices from the order book and makes automated trading decisions. 
+This component uses the order gateway client component to communicate with the trading exchange. 

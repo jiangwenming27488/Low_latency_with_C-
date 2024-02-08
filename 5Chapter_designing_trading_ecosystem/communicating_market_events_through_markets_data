@@ -1,0 +1,10 @@
+the market data publisher component will be explained first. 
+This component is reponsible for converting the updates to the limit order book maintained by the matching engine. 
+We mentioned before that the market data network level protocol can be TCP but knowing the overhead for making sure packets are in the correct frame UDP will be usded. 
+
+FIX Adapted for STreaming (FAST) is the most well-known and popular mesaging format for market data that is currently used by a lot of electronic trading exchanges. 
+There are other protocols, such as ITCH, PITCH, Enhanced Order Book Interface(EOBI), Simple Binary Encoding(SBE), and many others, but for the purposes of this book, we wil create a simple custom binary protocol such as EOBI or SBE that we will use. 
+
+FIX data is organized as a set of "TAG" = "VALUE" style fields. 
+It will be easier to understand this with a simple example, so for a hypothetical market data update, you might receive the following collection of feilds to convey all the data for that update. 
+This hypothetical market data update corresponds to a new buy order of a quantity of 1000 being added for the Apple company stock 

@@ -1,0 +1,3 @@
+After building the order book and deriving some trading signals from the current state of the market, if the trading strategies find an opportunity, they still need to execute their orders at the exchange. 
+THis is achieved by sending new orders, modifying existing orders to either move them to a more aggressive or less aggressive price, and/or canceling existing orders to avoid getting filled on them. 
+The subcomponent in the trading infrastrucure responsible for sending, modifying, and canceling orders - basically, managing a strategy's orders at the exchange - is called the execution system. 

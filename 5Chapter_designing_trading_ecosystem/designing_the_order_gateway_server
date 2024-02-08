@@ -1,0 +1,9 @@
+Here are some key steps in the design of the order gateway server implementaion in our electronic echange. 
+
+	1) TCP connection server/manager: This component is responsible for setting up a TCP server that listens to and accepts incoming TCP connections from market participants' order gateway clients. Finally, this component needs to forward order responses from the matching engine to the correct client for which the response is meant. 
+
+	2) FIFO (queue) sequencer: This maintains fairness when processing requests from market participants. The FIFO sequencer must ensure that it forwards client requests to the matching engine across the different client connections that the TCP connection manager maintains in the FIFO order. 
+
+	3) Exchange messaging protocol decoder and encoder: The encoder-decoder component is responsible for translating between the exchange messaging protocol and whatever internal structures the matching engine expects client requests in and publishes client responses in. 
+
+

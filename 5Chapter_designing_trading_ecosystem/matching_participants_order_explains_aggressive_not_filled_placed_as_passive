@@ -1,0 +1,5 @@
+In this section, we will understand what happens when a market participant modifies an existing order or sends a new order in such a way that the price on this order will cause a match against an existing passive order on the other side. 
+In such a scenario, the matching engine matches this aggressive order agianst passive orders in the order from most aggressive to least aggressive price. 
+This means passive bids are matched from highest to lowest buy prices, and passive asks are matched from lowest to highest sell prices. 
+In cases where the passive orders are not fully matched because the aggressive order has a smaller quantity than the passive liquidity available on the other side, then the remaining liquidity on the passive orders stays in the book. 
+In casses where the aggressive order is not fully matched becuase the pasive liquidity available on the other side is less than the quantity on the aggressive order, then the remaining quantity on the aggressive order rests in the book as passive order. 

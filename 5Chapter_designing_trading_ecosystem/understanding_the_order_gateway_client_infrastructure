@@ -1,0 +1,11 @@
+The order gateway client infrastructure in the market participant's trading system is a TCP client that connects to the exchange's order gateway server. 
+The other task that this component performs is receiving updates from the exchange on this TCP connection, decoding the messages received from the exchange order messaging protocol into a normalized internal format for use by the rest of the system. 
+Finally, the order gateway client component is also responsible for taking the order actions requested by the trading framework and encoding them in the order messaging format that the exchange understands and sending it throught to the exchange. 
+The important thing to remember here is that the order gateway client must always maintain a reliable TCP connection to the exchange. 
+Added on to the reliability mechanisms implemented by the TCP networking protocol itself, there usually exists an application-level reliability mechanism implemented by the exchange and the participants. 
+THis application-level reliablity mechnaism usually consists of strictly incrementing sequence numbers on the messages sent from exchange to client and from client to exchange. 
+Additionally, there can be heart-beating mechanisms in place, which are simply messages sent from exchange to client and client to exchange to check whether a connection is still active during periods of low activity. 
+
+There are mechanisms to authenticate and identify clients when they first connect, and this is usually implemented as a handshake mecheanism with user identification and password, and so on. 
+There can be additional administrative messages, such as the logon authentication message, and it depends on the exchange and can have wide range of purposes. 
+

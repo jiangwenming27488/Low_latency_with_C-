@@ -1,0 +1,3 @@
+The market data consumer is the complement of the exchange market data publisher component on the market participants' side. 
+This component is responsible for subscribing to the UDP stream or the TCP server set up by the market data publisher, conumming the market data updates, and decoding the market data protocol into an internal format used by the rest of the trading engine. 
+

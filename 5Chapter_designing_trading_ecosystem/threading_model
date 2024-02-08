@@ -1,0 +1,5 @@
+In the system, the matching engine, the market data publisher, and the order gateway server will be independent threads. 
+This intentional so that each one of these components can operate independently, and during periods of bursts in market activity, the entire system can achieve maximum throughput. 
+Also, there are other tasks that each component needs to perform -- for example, the order gateway server must maintain connectivity with all market participants, even when the matching engine is busy. 
+Similarly, lets us assume the market data publisher is busy sending out market data on the network; we do not want the matching engine or the order gateway server to slow down. 
+

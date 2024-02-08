@@ -1,0 +1,2 @@
+These messages notify the market participants about changes in the market and/or matching engine state. 
+Typically, markets go through states such as Closed for trading, Pre-open, Opening, and Trading

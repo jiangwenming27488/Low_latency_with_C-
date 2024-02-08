@@ -1,0 +1,10 @@
+Another important thing to discuss is the communication between the matching engine and the order gateway server infrastructure. 
+The order gateway server serializes the order requests coming in from the market participants and forwards them to the matching engine for procressing. 
+The matching engine needs to generate a response for order requests and send them back to the order gateway server. 
+Additionally, it also needs to inform the order gateway server about executions that happen on the participants orders so that they can be informed about the trades. 
+So, it needs a bi-directional queue, or one queue from the order gateway server to the matching engine and another queue from the matching engine to the order gateway server. 
+
+Another communication channel is when the matching engine generates and sends market data updates to reflect the updated state of the limit order book for the public market data pubklisher component. 
+
+Last, since the matching engine, the ordre gateway server, and the market data publisher are all different threads, here we find a perfect case for a lock-free queue. 
+

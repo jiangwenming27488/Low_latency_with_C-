@@ -1,0 +1,14 @@
+The limit order book contains all the passive limit orders across all market participants for a single trading instrument. 
+These are typically arranged from the highest buy price to the lowest buy price for passive buy orders, and from the lowest sell price to the highest sell price for passive sell orders. 
+This ordering is intuitive and natrual because passive buy orders are matched from highest to lowest buy prices and passive sell orders are matched from lowest to highest sell prices. 
+For orders that have the same side and the same price, they are arranged in FIFO order based on when they were sent. 
+Note that FIFO is just one ordering criterion; modern electronic trading markets have different types of matching algorithms, such as Pro Rata and some mix of FIFO and Pro Rata. 
+Pro Rata is simply a matching algo where larger orders get larger fills from aggressive orders regardless of where they are in the FIFO queue. 
+For our matching engine, we will only implement the FIFO matching algo. 
+
+
+Two things to note here as far as order modification is concerned are as follows: 
+
+	1) When orders are modified to reduce the quantity, the priority or position of the order in the queue does not change. 
+
+	2) When orders are modified to increase the quantity or the price of the ordre is modified, it has the equivalent effect of canceling the order and sending the order with the new price and quantity values. 

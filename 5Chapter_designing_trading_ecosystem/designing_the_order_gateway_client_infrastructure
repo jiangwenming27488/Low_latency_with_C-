@@ -1,0 +1,7 @@
+There are two simple components that make up the order gateway client inside the market participant's trading system: 
+
+	1) TCP connection manager: The order gateway client in a market participant's trading system oversees connecting to the exchange order gateway server and managing that connection. In industry practice, a single participant will have multiple connections to the exchange for load balancing, redundancy, and latency reasons. For this example it will be a single connection.(LOL you think I can spin up and out a data center???)
+
+	2) Order gateway protocol encoder and decoder: The order messaging format encoder and decoder translate order requests from the internal format that the trading strategy uses to the exchange format and translate order responses and execution notifications from the exchange to an internal format for strategy framework. 
+
+

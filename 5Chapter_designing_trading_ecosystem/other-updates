@@ -1,0 +1,8 @@
+The market data publisher uses order update messages to communicate changes to the order in the limit order book maintained by the matching engine -- specifically, updates to the order book similar. 
+Generally, the different kinds of order updates messages are the following: 
+
+	1) Order add -- This is used by the exchange to notify the participants that a new passive order was added to the limit order book. Typical attributes here are "instrument-id", "order-id", "price", "side", "quantity", and "priority". The "priority" field here is used to specify the position of the order in the FIFO queue of orders at that price. 
+
+	2) Order Modify - This is used by the exchange to let the participants known that a passive order was modified in price or quantity or both. This message has similar fields as an order add message. Ads mentioned before, in most cases, a new order priority value will be assigned for Order Modify events. 
+
+	3) Order Delete - This message is used to notify the market participants that a passive order was deleted from the order book. The important attributes here are "instrument-id" and "order-id" to specify the order being deleted from the order book. 

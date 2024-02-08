@@ -1,0 +1,4 @@
+Trade messages are used by the exchange to notify the market participants that a match happened in the market. 
+Generally, the attributes here are "instrument-id", side of the aggressive order, execution price of the trade, and the traded quantity. 
+Generally, when trades happen, the exchange also publishes as many Order Delete, Order modify, and Order Add messages as needed communicate information about which order were fully and/or partially executed and need to be removed from the book or modified to reflect the new state of the order book. 
+

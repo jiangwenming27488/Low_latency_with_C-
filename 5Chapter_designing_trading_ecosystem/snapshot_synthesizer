@@ -1,0 +1,9 @@
+The snapshot synthesizer consumes the encoded market data updates published by the market data protocol endcoder, synthesizes the latest snapshot of the limit order book, and publishes the snapshot periodically to the snapshot multicast stream. 
+The important point here is that the snapshot synthesis does not interfere with the incremental stream pubshishing so that incremental updates to the order book can be published as quickly as possible. 
+It is a separate thread of execution, and the sole responsibility here is to generate on accurate snapshot of the order book based on the incremental updates. 
+This component also adds the corrcet sequence information on the snapshot updates to facilitate synchronization at the client's end before publishing it on the snapshot UDP multicast stream. 
+What this means is that in the snapshot messages it sends out, it will provide the last sequence number from the incremental stream that was used to synthesize this snapshot message. 
+This is important because the downstream market data consumer clients can use this sequence number of the last update in the incremental stream to perform successful synchronization/catch-up.
+
+For low-latency market participants, packet drops on the UDP stream are expected to be rare because typically, the network connection to the exchange and switches along the way have a large bandwidth capacity and low switching latencies. 
+Additionally, the participants invest resources into procuring and installing super-fast server, building low-latency market data consumer software, and using special Network Interface Cards (NICs)(look int network acess transmission, you should be able to get ideas on how routing different servers (hardware) will work)

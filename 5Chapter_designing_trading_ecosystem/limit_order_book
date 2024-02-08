@@ -1,0 +1,5 @@
+Last, fo rthe limit order book, we will use a couple of different data structures to implement it efficiently. 
+We need to maintain the bids and asks in the correct sorted order on both sides to facilitate efficient matching when aggressive orders come in. 
+We need to be able to efficiently insert and remove orders form the prive levels to support operations such as adding, modifying, and deleting orders based on client requests. 
+One other particularly important consideration here is that the data structures we use and the order objects themselves must avoid dynamic memory allocations and copy as little data around as possible.
+You know what that means MEMORY POOL PARTIES!!!! its the waste managment golf termnament time in AZ only the Best pool parties!!!!. lol a easter egg for those putting in the work. also ya scottsdale W hotel(and maya ) had some of the best pool parties 

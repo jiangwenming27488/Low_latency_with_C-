@@ -1,0 +1,6 @@
+The matching engine at the electronic trading exchange is the most critical piece of the trading exchange. 
+It is responsible for handling requests from market participants for their order and updating the limit order book that it maintains. 
+These requests are generated when the clients want to add a new order, replace an existing order, cancal an existing order, and so on. 
+The limit order book is a collection of all orders sent by all participants aggregated into a central single book consisting of bids (by orders) and asks (sell orders).
+The mathcing engine is also responsible for performing matches between orders that cross in price (matching buy orders with sell orders when the by price is higher than or equal to the sell price). During special market states such as PreOpen, Auction/Opening, PreOpenNoCancel, and so on, the rules are slightly different, but we will not worry about those rules or implement them to keep the focus on low latency application development. 
+

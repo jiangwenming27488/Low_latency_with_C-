@@ -1,0 +1,4 @@
+There are two main components of the market data publisher infrastructure. 
+Both use the socket utilites we built. 
+This is in addition to the threading library that was built, which will e used to create, launch, and run the market data publisher thread. 
+

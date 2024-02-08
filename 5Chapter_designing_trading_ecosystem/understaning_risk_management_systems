@@ -1,0 +1,17 @@
+Technically speacking, in practice, there are multiple layers of risk management systems in a modern electronic trading ecosystem, 
+In practice, there are risk management systems in the clients trading strategy framework, order gateway clients in the market participant's system, and backend systems at the clearing broker's end. 
+Risk management systems try to manage the different forms of risk, as shown below: 
+
+	1) Risk based on order quantities 
+
+	2) Risk based on firm poitions
+
+	3) Risk based on worst-case position 
+
+	4) Risk to manage realized and unrealized loss
+
+	5) Risk based on traded volumes 
+
+	6) Risk to manage rate of orders, trades, and losses
+
+
