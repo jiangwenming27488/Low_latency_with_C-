@@ -1,0 +1,26 @@
+The market update structure is used by the matching engine to provide market data updates to the market data publishing component. 
+We also have a "MEMarketUpdateLFQueue" type to represent a lock-free queue of the "MEMarketUpdate" objects. 
+
+
+The "MEMarketUpdate" struct also needs to be a packed structure, since it will be part of the message that is sent and received over the network; hance, we use the "#pragma pack()" directive again. 
+Before we define the struct, we need to define the "MarketUpdateType" enumeration that represents the update action in the market update for an order.  
+In addition to taking on an "INVALID" sentinel value, it can also be used to represent events such as an order being added, modified, or canceled in the order book, as well as trade events in the market. 
+
+Finally, we define the "MEMarketUpdate" struct, which contains the following importan data members: 
+
+	1) The "type_" varibale of "MarketUpdateType" to represent the type of the market update. 
+
+	2) An "Order_id_" variable of type "OrderId" to represent the specific order in the limit order book for which this order update is applicable. 
+
+	3) A "ticker_id_" variable of type "TickerId" to represent the trading instrucment that this update app;ies to. 
+
+	4) A "Side" variable to represent the side of this order. 
+
+	5) A "Price" variable for the exact price of the order in this market order update
+
+	6) A "priority_" field of type "Priority", which, as we discussed before, willbe used to specify the exact position of this ordre in the FIFO queue.  We build a FIFO queue of all orders at the same price. This field specififes the position/location of this order in the queue. 
+
+
+Along with the "MEMarketUpdateLFQueue" typedef, which captures a lock-free queeu of "MEMarketUpdate" struct messages: 
+
+This concludes the structures we will need to represent and publish market data updates from the matching engine. 

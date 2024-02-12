@@ -1,0 +1,10 @@
+The limit order book is organized as a collection of by orders (referred to as bids) and sell orders (referred to as asks). 
+Orders that are entered at the same price are organized in the First in First Out (FIFO) order in our matching engine. 
+
+For the order book we build inside the matching engine, we have a list of bid prices and ask prices that have active orders. 
+Each price level is represented by the "MEOrderAtPrice" struct. 
+The bids are sorted from highest to lowest price level, and the ask are sorted from lowest to highest price level. 
+Each "MEOrdersAtPrice" stores the individual ordrs from highest to lowest priority in a doubly linked list. 
+Information for each individual order is contained in the "MEOrder" strucs. 
+We will track each price level in a has map type "OrdersAtPriceHashMap", which is indexed by the price of the level. 
+We will also track each "MEOrder" object by their "market_order_id_" value in a hash map of type "OrderHashMap". 

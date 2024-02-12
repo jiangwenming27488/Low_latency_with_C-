@@ -1,0 +1,25 @@
+First, it checks to see whether the cancel request is valid, meaning that "ClientId" is valid and "OrderId" on the cancellation request corresponds to an active order in the order book. 
+If the order is not cancellable, it generates and publishes an "MEClientResponse" message to signfy a rejected cancel request back to the matching engine. 
+If the order can be canceled, it generates "MEClientResponse" to signify the successful cancel attempt and calls the "removeOrder()" method to remove the order from the limit order book. 
+
+we will track an "is_cancelable" Boolean variable that determines whether we were able ot successfully find and cancel the client's order or not. 
+If "client_id" is larger than the maximum possible client ID value, then we cannot cancel the order. 
+If the client ID is valid, then we check the container from "cid_oid_to_order_" fo rthe provided "client_id" and the "order_id" value. 
+If a valid order does not exist, then we confirm that the order is not cancelable. 
+
+If we determine that order cannot be cancelled, we generate an "MEClientResponse" message of type "ClientReswponseType::CANCEL_REJECTED" to notify the matching engine.
+
+If we can successfully cancel the order, we update the attributes in the "client_response_" member variable and the "mark_update_" member variable. 
+Then, we call the "removeOrder()" method to update our order book and delete this order from it.(personally I would append it of the var as unreachable form the client prospective. keeping this type of data can give you insight on how a stock holder is thinking like a levare that you analize to see what a client is thinking at time d/dx)
+Finally, we send the market update to the matching engine, using the "sendMarketUpdate()" method, and we send the client response to the matching engine, using the "sendClientResponse()" method. 
+
+
+the implemntation the "removeOrder()" method. 
+It first finds "MEOrdersAtPrice" that the order being removed belongs to and then finds and removes "MEOrder" from the list of orders contained in "MEOrdersAtPrice". 
+If the order being removed is the only order at the price level, the method also calls "removeOrdersAtPrice()" to remove the entire price level, since after this deletion, that no longer exixts(this is probly best if you dont have HA with redunacy zones) 
+Finally, it removes the entry for that "MEOrder" from the "cid_oid_to_order_" hash map and returns the deallocated "MEOrder" object to the "order_pool_" memory pool.
+
+To conclude handling order cancellation requests, we will implement the "removeOrdersAtPrice()" method. 
+It finds and removes "MEOrdersAtPrice" from the doubly linked list of "MEOrdersAtPrice" for the bid or ask side. 
+If this price entry being removed happens to be the only "MEOrdersAtPrice" entry  on that side of the book, it sets the head of the doubly linked list to be "nullptr", representing an empty side of the book. 
+Finally, the method removes the entry from the "price_orders_at_price_" hash map for that price and returns the deallocated "MEOrdersAtPrice" to the "orders_at_price_pool_" memory pool. 

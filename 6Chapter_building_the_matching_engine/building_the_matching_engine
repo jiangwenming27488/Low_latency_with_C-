@@ -1,0 +1,31 @@
+The "MatchingEngine" class contains a couple of important data members -- first, an "OrderBookHashMap" object to track the limit order book for each of the trading instruments. 
+THe class also contains pointers to the following objects -- "ClientRequestLFQueue", "ClientResponseLFQueue", and "MEMarketUpdateLFQueue", all of which will be passes to it in the constructor. 
+Lets first declare and define the constructions, destructions, thread management, and boilerplate functionality for the matching engine. 
+We will also have a Boolean, "run_" to track the thread state, a "time_str_" string, and a "Logger" object to output some logs. 
+
+First, the header files we need to include to build our matching engine. 
+
+We declare the constructor and destructor methods next, and we add the "start()" and "stop()" methods to respectively start and stop the execution of the main matching engine loop. 
+
+We add our usual boilerplate code for the constructors and assigment operators to prevent accidental copies. 
+
+Finally, we add the data members for this "MatchingEngine" class. 
+The "ticker_order_book_" variable of type "OrderBookHashMap" is used to store "MEOrderBook" for each instrucment. 
+We store the "incoming_rquests_", "outgoing_ogw_responses_", and "outgoing_md_updates_" pointers of the "ClientRequestLFQueue", "ClientResponseLFQueue", and "MEMarkUpdateLFQueue" types respectively to communicate with the other threads. 
+Then, we have the "run_" boolean variable, which we mark "volatile", since it will be accessed from different threads. 
+
+"start()" method implementations of the construrctor and the destructor that creates and launches a thread to execute the "run()" method. 
+The constructor itself is straightforward - it initializes the internal data members and creates an "MEOrderBook" instance for each of the supported trading instrucments. 
+
+The destructor does the opposite of the constructor and resets the internal data member variables. 
+It also deletes the "MEOrderBook" objects it created in the constructor. 
+
+The "start()" method creates and launches a new thread, assigning it the "MatchingEngine::run()" method. 
+Before it does that, it enables "run_ flag", since it controls the execution of the "run()" method. 
+
+The "stop()" method simply sets the "run_" flag to be "false", and that in turn causes the "run()" method to exit out of its main loop. 
+
+Next, we will investigate the source code that handles how the matching engine consumes the order requests and ublishes order responses and market updates. 
+But first, lets us present the main "run()" loop that the matching engine thread executes. 
+This code is very simple = it simply consumes "MEClientRequest" objects from the "incoming_requests_" lock-free queue and forwards them to the "processCleintRequests()" method. 
+To achieve this, it simply checks the "LFQueue::getNextToRead()" method to see wether there is a valid entry to be read, and if wso forwards the object at that entry to be processed, and updates the read index in the lock-free queue using the "LFQueue::updateReadIndex()" method. 

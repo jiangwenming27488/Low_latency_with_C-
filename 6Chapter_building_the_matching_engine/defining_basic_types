@@ -1,0 +1,40 @@
+Here are some types to hold different atributes in our electronic trading system: 
+
+	1) OrderId: to identify orders 
+
+	2) TickerId: to identify trading instruments 
+
+	3) ClientId: for exchange to identify different clients
+
+	4) Price: to hold prices for instruments 
+
+	5) Qty: to hold quantify values for orders 
+
+	6) Priority: to capture the position of an order in the FIFO queue at a price level
+
+	7) Side: to dignify the side (buy/sell) of an order
+
+
+First, we define the "OrderId" type to identify orders, which is simply "uint64_t", and a correspoinding "orderIdString()" method to log it. 
+We also add a "OrderId_INVALID" sentinel method to signify invalid values: 
+
+Next, the "TickerId" type to identify trading instruments, which is simply a "uint32_t" type, and add a correspoinding "tickerIdToString()" method for it. 
+
+After that, "ClientId" type is used to defferentiate between different trading participants. 
+The "ClientId_INVALID" value represents an invalid sentianel. 
+The "clientIdToString()" method is used for logging purposes: 
+
+Next, "Price", which is used to capture prices on orders. 
+We also add a "Price_INVALID" constant to represent invalid prices. 
+A "priceToString()" method to strigify these values: 
+
+The "Qty" type is "typedef" for "uint32_1" and represents order quantites.
+We also provide the usual "Qty_INVALID" sentinel and the "qtyToString()" method to convert them to strings
+
+The "Priority" type is just a position in the queue of type "uint64_t". 
+We assign the "Priority_INVALID" sentinel value and the "priorityToString()" method
+
+The "Side" type is an enumeration and contains two valid values. 
+We also define a "sideToString()" method. 
+
+Those are all the basic types we need 

@@ -1,0 +1,51 @@
+In this file, we will implement the matching functionality in the limit order book by presenting the "MEOrderBook::checkForMatch()" method we encountered earlier. 
+The pic in this dir starting with 6.3 look at it, it shows what would happen in a hypothetical state of the limit order book. 
+Here, the state of the ask side is shown, and the passive sell prices represented by "MEOrdersAtPrice" are 117, 118, 119, and so on, in that order. 
+At the best ask price, 117, the first two "MEOrder" objects are shown, the first one with a priority of 11, and market order ID of 1200, and quantity of 20. 
+"MEOrder" following that in the FIFO queue has a priority of 13, a market order ID of 1400, and a quantity of 10. 
+IN this case, a new buy order with a quantity of 25 and a price of 117 will match the first order with a market order ID of 1200 and executed if fully. 
+It will then partially execute the remaining quantity of 5 against the order with a market order ID of 1400, and the matching event is finished. 
+
+This method iterates through the "MEOrdersAtPrice" objects on the side of the book opposite to the new order. 
+It iterates through the price levels from the most aggressive to the least aggressive price and, for each price level, mathces the "MEOrder" objects contained at that level from the first to last, in the FIFO order. 
+It continues matching the new order against the passive orders on the other side, from the most aggressive to the least aggressive price and in the first to last order at a price level, by calling the "match()" method. 
+It stops and returns when either the new aggressive order has no more unmatched quantity left to match, the remaining price levels on the other side no longer cross the new order's price, or the side of the book is empty. 
+At that point, it returns the remaining unmatched quantity on the new order to the caller. 
+
+We keep iterating through all the ask price levels, arranged from the lowest to the highest prices, starting from the "asks_by_price_" level. 
+For the "asks_by_price_" level, we start from the "first_me_order_" object of the "MEOrder" type pointer and iterate in the FIFO order, from the lowest to the highest priority. 
+For each order that can match against the new aggressive order, we call the "MEOrder::match()" method to perform the actual match. 
+We continue doing this till either there is no more "leaves_qty" left, the "asks_by_price_" variable is "nullptr" to signify an empty book side, or the remaining price levels cannot be used to match the new order. 
+
+If the new order has a side of sell, we perform the same logic as described previously, except we iterate through the "bids_by_price_" price levels, which are arranged from the highest buy price to the lowest buy price. 
+
+The "match()" mehtod is called when a new aggressive order matches an existing passive order on the other side of the book. 
+It computes the executed quantity, which is the minimum of the quantity of the new order and the existing passive order it would match against. 
+It subtracts this executed quantity from the remaining quantity of the aggressive order, as well as the passive order it matched against. 
+It generates two execution order responses and sends them to the matching engine one for the client who went the aggressive order and another one for the client whose passive order got executed against the new order. 
+It also creates and publishes a market update of type "MarketUpdateType::TRADE" to notify participants about the execution on the public market data feed. 
+FInally, it checks whether this trade transaction fully executes the passive order or not, and if there is a full execution, it generates another market update type "MarketUpdateType::CANCEL" to notify participants that passive order has been removed. 
+If the passive order is only partially matched, it instead generates a market update of type "MarketUpdateType::MODIFY" with the new remaining quantity of the passive limit order.
+
+What this means is that participants who choose to ignore trade messages from the market data stream can still accurately build and maintain the limit order book. 
+We could theoretically eliminate the extra cancel or modify market update, but that would require downstream market data consumers to apply trade messages to their order books and update them. 
+
+The "MEOrderBook::match()" method takes a few arguments to identify the client infromation, but the key arguments are the "MEOrder" pointer, "itr", and the "Qty" pointer, "leaves_qty". 
+The "MEOrder" pointer represents the order in the book that the new order is being matched against, and "Qty" represents the remaining quantity on the new order. 
+THese arguments are passed by pointer because we will modify them directly in this method and expect the changes to be reflected in the calling method. 
+
+
+We compute the "fill_qty" variable to be the minimum of the quantity on the passive order that exists in the book and the new order's quantity. 
+We then use "fill_qty" to decrease both "leaves_qty" and the "qty_" member on the "MEOrder" object. 
+
+We generate a client response message of type "ClientResponseType::FILLED", meant for the client who sent the new order, and dispatch it to the matching engine using the "sendClientResponse()" method. 
+
+We also generate a second client response message of "type_" "ClientResponseType::FILLED"; this one is meant for the client whose order was in the order book and got matched. 
+
+We will also generate a market update of type "MarketUpdateType::TRADE" and publish it using "sendMarketUpdate()", notifying the participants about the trade transaction that occurred and providing them with "fill_qty". 
+
+Finally, we will generate a market update for the passive client order that existed in the book. 
+If there is some quantity remaining on this "MEOrder", then we generate a "MarketUpdateType::MODIFY" message and pass the remaining quantity left on that order. 
+If the order is fully executed, them we generate a "MarketUpdateType::CANCEL" update, publish it, and also call the "MEOrderBook::removeOrder()" method to remove this "MEOrder" from the order book. 
+
+

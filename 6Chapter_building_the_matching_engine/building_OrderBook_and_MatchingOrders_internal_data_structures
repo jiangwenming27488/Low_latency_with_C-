@@ -1,0 +1,41 @@
+First, we will declare the data memebers for the limit order book.
+We presented a diagram depicting the data structures that make up the limit order book. 
+The limit order book contains the following important data members: 
+
+	1) A "matching_engine_" pointer variable to the "MatchingEngine" parent for the order book to publish order responses and market data updates to . 
+
+	2) The "ClientOrderHashMap" variable, "cid_oid_to_order_", to track the "OrderHashMap" objects by thier "ClientId" key. As a reminder, "OrderHashMap" tracks the "MEOrder" objects by their "OrderId" keys. 
+
+	 3) The "orders_at_price_pool_" memory pool variable of the "MEOrderAtPrice" objects to create new objects from and return dead objects back to. 
+
+	4) The head of the doubly linked list of bids ("bids_by_price_") and asks ("asks_by_price"), since we tracked orders at the price level as a list of "MEOrdersAtPrice" objects. 
+
+	5) A hash map, "OrderAtPriceHashMap", to track the "MEOrderAtPrice" objects for the price levels, using the price of the level as key into the map. 
+
+	6) A memory pool of the "MEOrder" objects, called "order_pool_", where "MEOrder" objects are created from and returned to without incurring dynamic memory allocations. 
+
+	7) Some minor members, such as "TickerId" for the instrument for this order book, "OrderId" to track the next market data order ID, and "MEClientResponse" variable ("client_response_"), "MEMarketUpdate" object ("market_update_"), a string to log time, and the "Logger" object for logging purposes. 
+
+
+First, we include some dependent header files and also forward-declare the "MatchingEngine" class because we will reference that type without fully defining it yet: 
+
+
+Now, we will define the data memeber variables. 
+
+At this point, we will define the "OrderBookHashMap" type, which we referrenced before and is "std::array" of the "MEOrderBook" objects indexed by "TickerId". 
+
+Next, let us present the straightforward implementation of the constructor and the destructor, as the boilerplate code for the default constructor and assignment operators. 
+
+Then, we add the boilerplate code to most of our classes to prevent accidental copies and assigments of the "MEOrderBook" objects
+
+
+Before we move on to the implementation of the differnent operations that will be performed on the order book, lets us present an few simple methods to generate new market order IDs, convert "Price" to an index in "OrdersAtPriceHashMap", and access the "OrdersAtPriceHashMap price_orders_at_price_" map when given "Price": 
+
+
+The "generateNewMarketOrderId()" method is basic; it returns the "next_market_order_id_" value and increments it the next time this method is called. 
+
+
+The "priceToIndex()" method converts a "Price" argument into an index that ranges between 0 and "ME_MAX_PRICE_LEVELS-1", which is then used to index the price levels "std::array"
+
+
+Finally, the "getOrdersAtPrice()" utility method indexes "std::array" of "price_orders_at_price_" by converting "Price" it is provided into an index, using the "priceToIndex()" method, which returns the "MEOrdersAtPrice" objects. 

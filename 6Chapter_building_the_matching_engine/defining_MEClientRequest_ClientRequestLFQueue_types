@@ -1,0 +1,35 @@
+The "MECLientRequest" structure is used by the order server to forward order requests from the clients to the matching engine. 
+Remember that the communication from the order server to the matching engine is established through the lock-free queue component. 
+"ClientRequestLFQueue" is a typedef for a lock-free queue of "MEClientRequest" objects. 
+
+Note two thing here - we use the "#prama pack()" derecitve to make sure these structures are packed and do not contain any extra padding (there is a way to do this in C and its under the C work repo but this is way better a.k.a lest writing code way to do so linkers are fun) 
+This is important because these will be sent and received over a network as flat binary structures in later chapters. 
+We also define a "ClientRequestType" enumeration to define what type of order request it is - whether it is a new order or a cancel request for an existing order. 
+We also define an "INVALID" sentinel value and a "clientRequestTypeToString()" method to convert this enumeration into human-readable strings:  
+
+Now, we can define the "MEClientRequest" structure, which will contin infromation for a single order request from the trading participant to the exchange
+Note that this is the internal representation that the matching engine uses, not necessarily the exact format that the client sends. 
+The important member of this struct are the following: 
+
+	1) A "type_" variable of type "ClientRequestType"
+
+	2) The "client_id_" variable of type "ClientId" of the trading client that sent this request
+
+	3) A "ticker_id_" variable of type "TickerId" of the instrument for what this request is meant
+
+	4) "OrderId" ("order_id_") of the order for which this request is made, which can be a new order or reference an existing order. 
+
+	5) "Side" of the order in the "side_" variable 
+
+	6) "Price" of the order in the "price_" variable
+
+	7) "Qty" of the order saved in the "qty_" variable 
+
+Additionally, we will also add a simple "toString()" method to help us later on with logging. 
+
+
+As discussed, we also define the "ClientRequestLFQueue" typedef to represent the lock-free queue of these structures. 
+The "#pragma pack(pop)" simply restores the alignment setting to the default - that is, not tightly packed (wich we had set by specifiying the "#pragma pack(push, 1)" directive). 
+This is because we only want to tightly pack the structures that will be sent over a network and no others: 
+
+we will define a similar structure used by the matching engine that sends over responses to the order server component 

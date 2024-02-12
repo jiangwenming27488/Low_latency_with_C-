@@ -1,0 +1,15 @@
+"MEOrderAtPrice" struct will used to hold all the orders entered at the same price, arranged in the FIFO priority order. 
+This is achived by creating a singly linked list of "MEOrder" objects, arranged in order of highest to lowest proirity. 
+For that, we create a "first_me_order_" variable of the "MEOrder" type pointer, which will represent the first order at this price level, and the other orders folling it are chained together in the FIFO order. 
+
+The "MEOrderAtPrice" structure also has two pointers to the "MEOrdersAtPrice" obects, one for the previous ("prev_entry_") and one for the next ("next_entry_"). 
+This is because the structure itself is a node in a doubly linked list of "MEOrdersAtPrice" objects. 
+The doublly linked list of "MEOrdersAtPrice" is arranged from the most aggressive to the least aggressive prices on the buy and sell sides. 
+
+The two variables this struct contains are a "side_" variable of type "Side" and a "price_" variable of type "Price", respectively representing the side and price of this price level: 
+
+We add a default constructor and a trivial custom container to initialize objects of this structure. 
+
+we also add a simple "toString()" method for logging purposes. 
+
+The "OrderAtPriceHashMap" type represents a hash map, implemented throught a "std::array" tp represent a mapping from Price to "MEOrderAtPrice". 

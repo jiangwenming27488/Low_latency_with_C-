@@ -1,0 +1,34 @@
+The implementation of the structure used by the matching engine that sends over reposnes for the order server component to dispatch to clients.
+We will also define "ClientResponseLFQueue", which is a lock-free queue of the "MEClientResponse" objects. 
+
+First, we will define a "ClientReponseType" enumeration to represent the type of response for client orders. 
+In addition to the "INVAILD" sentinel value, it contains values that represent when a request for a new order is accepted, an order is canceled, on "clientResponseTypeToString()" method to convert the "ClientResponseType" values to string: 
+
+Finally, we define the "MEClientReponse" message used internally by the matching engine to communicate order response messages for the trading clients when there are updates to the client's orders. 
+The important data members in this struct are listed as follows: 
+
+	1) A "ClientResponseType type_" variable to represent the type of the client response. 
+
+	2) A "client_id_" variable of type "ClientId" to represent which market participant the response message is meant for. 
+
+	3) The "ticker_id_" variable of type "TickerId" to represent the tradig instrument of this response. 
+
+	4) A "Client_order_id_" variable that identifies "OrderId" of the order this response message affects. This "OrderId" is the one that the client sent in the original "MEClientRequest" message for the order. 
+
+	5) A "market_order_id_" variable, also of type "OrderId", but this one identifies this order in the public market data stream. This "OrderId" is unique across all market participants, since it is possible for different market participants to send order with the same "client_order_id_" value. Even in thos casses, two order with the same "client_order_id_" will have different "market_order_id_values" in their responses. This "market_order_id_" value is also used when generating market updates for this order. 
+
+	6) A "side_" variable of type "Side" to represent the side of this order response. 
+
+	7) "Price" of this client response update and wheter it is accepted, canceled or executed. 
+
+	8) An "exec_qty_" variable of type "Qty", which is only used in the event of an order execution. This variable is used to hold how much quantity was executed in this "MEClientResponse" message. This value is not cumulative, meaning that when an order gets partially executed multiple times, a "MEClientReponse" message is generated for each individual execution and only contains the quantity executed in that particular execution, not across all of them. 
+
+	9) A "leaves_qty_" variable, also of type "Qty", which represents how much of the original order's quantity i still live in the matching engine's order book. this is used to communicate the size of this specific order in the book, which is still active for further possible executions. 
+
+Finally, we also have our usual "toString()" method for easy logging purposes.
+The definition of the "MEClientResponse" structure. 
+
+The "ClientResponseLFQueue" type definition which represents a lock-free queue of the structures
+
+
+That concludes the discussion of the sturctures we need to represent client requests and responses to and from the matching engine. 

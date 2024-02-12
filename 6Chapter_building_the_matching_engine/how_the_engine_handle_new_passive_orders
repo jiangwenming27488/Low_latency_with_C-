@@ -1,0 +1,70 @@
+The first important task we need to perform in the order book is handling client order requests that want to enter new orders in the market. 
+We will implement the "MEOrderBook::add()" method, which the matching engine calls first. 
+It generates and sends "MEClientResponse", accepting the new order, and sends it to the matching engine. 
+It then also checks to see whether this new order crosses an existing passive order on the other side and whether it matches either full or partially, by calling the "checkForMatch()" method. 
+If the new order either does not match at all or is partially filled and leaves some quantity in the book, "MEOrder" is added to the order book. 
+It also generates "MEMarketUpate" for the public market data feed and sends it back to matching engine. 
+We will discuss the "getNextPriority()", "checkForMatch()", and "addOrder()" methods shortyly(this is foreshadowing), but let us first explore the "MEOrderBook::add()"method: 
+
+The first thing it does is generate "new_market_order_id_" to be used for "MEClientResponse" and "MEMarketUpdate". 
+It updates the "client_response_" data member with the attributes from this request and calls the "MatchingEngine::sendClientResponse()" method to publish that response back to the matching engine: 
+
+Next, the "MEOrderBook::add()" method calls the "MEOrderBook::checkForMatch()" method, which checks the current state of the order book against the new client request that just came in. 
+It checks whether a partial or complete match can be made. 
+The "checkForMatch()" method returns the quantity of the order left over after the matching event. 
+For orders that do not execute at all, "leaves_qty" returns is the same as the original quantity on the other. 
+For orders that partially execute, it is whatever is left after matching.
+For orders that fully execute, thisw method will return a 0 value and that will be assigned to "leaves_qty". 
+We will see the complete implementation of "checkForMatch()" shortly (you got to be waiting to see how cool this init is). 
+
+In the event that there is a quantity left over after the matching event, we need to generate a market data update corresponding to this new order that will join the book. 
+To do that the "MEOrderBook::add()" method finds out the correct priority value for this order by calling the "MEOrderBook::getNextPriority()" method. 
+It allcates a new "MEOrder" object from the "order_pool_" memory pool and assigns it the attributes for this order. 
+It then calls the "MEOrderBooK::addOrder()" from the "order_pool_" memory pool and assigns it the attributes for this order. 
+It then calls the "MEOrderBook::addOrder()" method to actually add it at the correct price level and priority in the "MEOrdersAtPrice" data structures. 
+Finally, if fills in the "market_update_" object with the values for the market update and calls the "MatchingEngine::sendMarketUpdate()" method to publish it to the matching engine. 
+
+
+The "getNextPriority()" method is quite straigtforward. 
+If a price level already exists to a certain price, then it just returns a priority value one higher than the last order at the price. 
+If a price level does not already exist, then it returns 1 for the first order at the price level. 
+
+Next, we will lay out the details of adding a new order to the limit order book. 
+The method appends the "MEOrder" object passed to it at the end of the "MEOrdersAtPrice" entry at the price for this order. 
+If an "MEOrdersAtPrice" entry does not already exist, it first allocates a new entry, adds the new level into the book using the "addOrdersAtPrice()" method, and then appends the order. 
+Additionaly, it tracks the "MEOder" object in the "ClientOrderHashMap id_oid_to_order_" map, mapping from "ClientId" and "OrderId" to the "MEOrder" objects. 
+
+First, we try to check and fetch "MEOrdersAtPrice" if one exists by calling the "getOrdersAtPrice()" method and saving it in the "orders_at_price" variable.
+Then, we check whether a valid "MEOrdersAtPrice" exists, meaning a price level with the price and side of this order already exists. 
+If such a price level does not exist and this is the first order that forms that level, we create a new "MEOrderAtPrice" form "orders_at_price_pool_", initialize it, and call the "addOrderAtPrice()" method on it. 
+
+If a valid price level exists, append the new order at the very end of the doubly linked list of "MEOrder" objects, reachable from the "first_me_order_" member of "MEOrdersAtPrice". We then update the "prev_order_" and "next_order_" pointers on "MEOrder" being added as well as the last element on the list, after which the "MEOrder" object is appended. 
+
+Finally, we add this "MEOrder" pointer to the "cid_oid_to_order_" container, which is "std::array" of "std::array" instances, indexed first by "client_id_" of the order and then by "client_order_id_" of the order. 
+
+Now, we need to implement the "addOrdersAtPrice()" method to add new price levels to the book. 
+This method first adds the new "MEOrderAtPrice" entry into "OrdersAtPriceHashMap" "price_orders_at_price". 
+Then, it walks through the bid or ask price levels, from the most aggressive to the least aggresive price, to find the correct spot for the new price level. 
+Note that this implementation iterates through the doubly linked list of "MEOrdersAtPrice" objects on the side. 
+It is possible to have an alternative implementation that walks through the "price_orders_at_price_" hash map to find the right spot. 
+Both implementations are viable and perform differently, depending on the number of price levels and the distance between consecutive prices.
+
+The first task for the "addOrdersAtPrice()" method is to insert the new "MEOrdersAtPrice" in the "price_orders_at_price_" hash map, mapping from "Price" to "MEOrdersAtPrice". 
+
+Then, we need to insert it in its correct location for the bids/asks arranged by price. 
+We do this first assigning a "best_orders_by_price" variable to the begining of the bids or asks, srted by price
+
+We need to handle and edge case where there are no bids or no asks - that is a side of the order book is empty. 
+In such a case we set the "bids_by_price_" or "asks_by_price_" members, which point to the head ofthe sorted list for that side. 
+
+Ortherwise, we need to find the correct entry in the doubly linked list of price levels. 
+We do this by walking through the bids or the asks till we find the correct price level, before or after which we insert the new price level. 
+We track the price level before or after the new one in the following "target" variable, and we track whether we need to insert after or before the target variable using the "add_after" Boolean flag. 
+
+Once we find the correct location for the new "MEOrdersAtPrice" entry, we append the new price level by updating the "prev_entry_" or "next_entry_"  variables in the "target" "MEOrdersAtPrice" structure, as well as the new "MEOrdersAtPrice" being appended. 
+
+Finally, if we add the new price level before an existing price level, we need to check whether prepending this price level changes the "bids_by_price_" or "asks_by_price_" varable. 
+Remember that these variables track the start of the bids or asks, respectively that is, the highest bid price and the lowest ask price. 
+If we have a new best bid/ask price level, we update the "bids_by_price_" or "asks_by_price_" variable. 
+
+

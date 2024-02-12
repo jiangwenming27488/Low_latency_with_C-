@@ -1,0 +1,21 @@
+We can now build the trading exchange binary. 
+We will instantiate the three lock-free queues for order requests, order responses, and market updates that the matching engine object needs. 
+We will also create the "MatchingEngine" object and launch the thread, and then the binary simply sleeping forever. 
+Since the application goes into a infinite loop, we will also install a signal handler for this application to trap external signals and exit gracefully. 
+
+First, we add some variables that will be pointers for the "Logger" object and the "MatchingEngine" object. 
+We will also add a "signal_handler()" method to be invoked when killing the exchange application. 
+The signal handler simply deletes these objects and exits. 
+
+The "main()" method is pretty simple for now till we add other components. 
+It installs the "signal_handler()" method using the "std::signal()" routine to trap external "SIGINT" signals. 
+The "SIGINT" signal is the signal value 2, which is sent to a running process when either Ctrl + C is pressed or "kill-2 PID" is sent to that Process ID (PID). 
+THis is the common way to terminate processes gracefully. 
+It then initializes the "ClientRequestLFQueue" variable, "client_requests", and the "ClientResponseLFQueue" variable, "client_responses", to e of the "ME_MAX_CLIENT_UPDATES" size. 
+We also initialize the lock-free queuevariable, "market_updates", of type "MEMarketUpdateLFQueue" to be of "ME_MAX_MARKET_UPDATES" capacity. 
+The "main()" method also initializes the "logger" variable with an instance of the "Logger" class. 
+
+
+Finally, the "main()" method initializes the "matching_engine" variable with an instance of the "MatchingEngine" class we created and passes it the three lock-free queue it needs from the preceding code block. 
+It then calss the "start()" method so that the main matching engine thread can start executing. 
+At this point, the "main()" method is done, so it enters into an infinite loop, where it sleeps most of the time and waits for an external signal that will kill the process: 

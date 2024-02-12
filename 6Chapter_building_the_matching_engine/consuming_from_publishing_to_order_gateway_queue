@@ -1,0 +1,13 @@
+First, we will start with the implementation of "processClientRequest()" in the "MatchingEngine" class in the header file. 
+This implementation simply checks for the type of the "MEClientRequest" and forwards it to the limit order book for the corresponding instrument. 
+It finds the correct order book instance that this "MEClientRequest" is meant for by accessing the "ticker_order_book_" container, using the "ticker_id_" field in "MEClientRequest". 
+
+For client requests that try to add a new order ("ClientRequestType::NEW"), we call the "MEOrderBook::add()" method and let it service that request. 
+
+Similary, client requests that try to cancel an existing order ("ClientRequestType::CANCEL") are forwardedto the "MEOrderBook:cancel()" method: 
+
+We will also define a method in the same class that the limit order book will use to publish order responses through "MEClientResponse" messages. 
+This simply writes the response to the "outgoin_ogw_responses_" lock_free queue and advances the writer index. 
+it does that by finding the next valid index to write the "MEClientResponse" message to by calling the "LFQueue::getNextToWriteTo()" method, moving the data into that slot, and updating the next write index by calling the "LFQueue::updateWriteIndex()" method. 
+
+
