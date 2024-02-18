@@ -1,0 +1,8 @@
+We will start building the order gateway server infrastructure, which is responsible for setting up a TCP server for clients to connect to. 
+THe order gateway server also needs to process incoming client request from different clients in the order in which they arrive and forward those to the matching engine. 
+Finally, it also needs to receive the order responses from the matching engine and forward them to the corrent TCP connection for the corresponding market participant. 
+
+To refresh you memory, the order gateway server receives new TCP connections or client requests on established TCP connections. 
+Then, thos requests go through a FIFO sequencer stage to make sure that requests are processed in the exact order in which they arrived at the exchange's infrastructure. 
+There is a transformation between the internal matching engine format and the public order data format. 
+

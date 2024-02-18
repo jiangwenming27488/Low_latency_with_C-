@@ -1,0 +1,3 @@
+The process of synthesizing the snapshot of the order books for the different trading instruments is like building "OrderBook". 
+However, the difference here is that the snapshot synthesis process only needs to maintain the last state of the live orders, so it is a simpler container. 
+The "addToSnapshot()" method we will build next receives an "MDPMarketUPdate" message every time there is a new incremental market data update provided to "SnapshotSynthesizer". 

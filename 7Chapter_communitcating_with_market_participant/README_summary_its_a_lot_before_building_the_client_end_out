@@ -1,0 +1,20 @@
+This dir was dedicated to building the order gateway server and the market data publisher components. 
+We also combined the matching engine component we built with the order gateway server and market data publisher components we built in this dir to build the final trading exchange main application. 
+
+First, we defined the public market data protocol that will be used by the exchange to publish data on the wire and used by the clients to write market data consumer applications. 
+We performed a similar task with the order gateway protocol so that client applications can understand the format of the client requests that they send to the exchange's order gateway server and receive responses from. 
+
+We built the order gateway server. 
+We built the "OrderServer" class, which builds and runs "TCPServer", to accept and manage TCP client connections. 
+We added functionality to handle incoming client requests and send client responses. 
+We also built the "FIFOSequencer" component, which is responsible for sequencing/ordering the incoming TCP client requests in the order in which they were received to maintain fairness in the market. 
+
+The next component we built was designed , which is the market data publisher. 
+We built "MarketDataPublisher", which consumes market data updates from the matching engine and generates a multicast stream of incremental market data updates. 
+We also added the "SnapshotSynthesizer" component, which runs on a different thread and is responsible for consuming market data updates from "MarketDataPublisher" and synthesizing the snapshot of the full order book. 
+This full snapshot is periodically published by "SnapshotSynthesizer" on the snapshot multicast stream. 
+
+Finally, we built the main electronic trading exchange application, which ties together all the exchnage side components we have built so far. 
+This will serve as the central electronic trading exchange that supports multiple clients and different trading instruments for clients to connect and trade as well as receive market data updates for. 
+
+

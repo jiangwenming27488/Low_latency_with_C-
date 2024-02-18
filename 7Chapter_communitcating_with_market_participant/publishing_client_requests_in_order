@@ -1,0 +1,14 @@
+The "FIFOSequencer::addClientRequest()" method implementation, which is quite simple and involves simply adding it to the end of "pending_client_requests_" and incrementing the "pending_size_" variable to signify that there is an additional entry that was added. 
+Note here that we only ever expect a maximum of "ME_MAX_PENDING_REQUESTS" at a time since we set it to a high value. 
+If this limit is not enough, we have the option of increasing the array size and possibly switching to using a "MemPool" of "RecvTimeClientRequest" objects. 
+
+The most important mehtod of the "FIFOSequencer" class which is "FIFOSequencer::sequenceAndPublish()" performs the following tasks: 
+
+	1) First, it sorts all the "RecvTimeClientRequest" entries in the "pending_client_requests_" container in ascending order of their arrival times.
+It achieves this by using the "std::sort()" algo, which in turn uses the '<' operator we built for "RecvTimeClientRequest" object to sort the container. 
+
+	2) After the sorting step, it writes each of the "MEClientRequest" entries to the "incoming_requests_LFQueue", which goes to the matching engine. 
+
+	3) Finally, it resets the "pending_size_" variable to mark the end of processing and returns from the method. 
+
+

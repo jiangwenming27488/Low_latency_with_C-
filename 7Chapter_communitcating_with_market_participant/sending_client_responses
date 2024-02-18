@@ -1,0 +1,18 @@
+Now, we will look at how "OrderServer" performs two important tasks in the "run()" method. 
+Remember that this "run()" method is the main loop for this class, specifically in the "start()" method. 
+The "run()" method performs the following two main tasks: 
+
+	1) It calls the "poll()" method on the "TCPServer" object it holds. Remember that the "poll()" method checks for and accepts new connections, removes dead connectiosn, and checks whether there is data available on any of the established TCP connections, that is, client requests. 
+
+	2) IT also calls the "sendAndRecv()" method on the "TCPServer" object it holds. 
+The "sendAndRecv()" method reads the data from each of the TCP connections and dispatches the callbacks for them. The "sendAndRecv()" call also sends out any outgoing data on the TCP connections, that is, client responses. 
+
+	3) The "run()" loop also drains the "outgoing_responses_" lock-free queue, which the matching engine uses to send out "MEClientResponse" messages that need to be dispatched to the correct clients. 
+
+	4) It iterates through the available data in the "outgoing_responses_" queue and then for each "MEClientResponse" it reads, it first finds out what the correct outogin sequence number is. this is the sequence number on the "OMClientResponse" message to be sent to that client ID. it does this by looking up that anser in the "cid_next_outgoing_seq_num_" array, which we are really using as a hash map from the client ID to the sequence number. 
+
+	5) It also checks that it has a vaild "TCPSocket" for the client ID that this response is meant for. it looks up that information in the "cid_tcp_socket_" array, which is a hash map from the client ID to "TCPSocket" objects. 
+
+	6) It then sends an "OMClientResponse" message on "TCPSocket" for this client ID by calling the "TCPSocket::send()" method. it achieves this by first sending the "next_outgoing_seq_num_" value and then the "MEClientResponse" message that the matching engine generated. It might not be immediately clear, but this is actualy just a sequence number field followed by a "MEClientResponse" message, which is what we just did 
+
+	7) Finally, it updates the read index and the sequence number of the next outgoing message and continues with the loop. 

@@ -1,0 +1,14 @@
+First, we define a constant, "ME_MAX_PEDING_REQUESTS", which represents the maximum number of dimultaneously  pending requests available at the network socket across all TCP connections. 
+If the order gateway server is busy with other tasks and has not polled TCP connections for a very short period of time, it is possible client requests arrived during that time and are queued at the network socket level. 
+
+The FIFO sequencer uses this constant to create a "std::array" of that size of "RecvTimeClientRequest" structures. 
+This member variable is named "pending_client_requests_" in this "FIFOSequencer" class. 
+To count the number of actual pending request entries in this "pending_client_requests_" array, we will maintain a "pending_size_" variable of the "size_t" type. 
+
+The "RecvTimeClientRequest" struct has two members - "recv_time_", of the "Nanos" type, and a "request_" variable of the "MEClientRequest" type. 
+This structure captures the client request as well as the time of its arrival at the order gateway server. 
+We will sort those by time and then process them in order of arrival. 
+To make sorting easy, we will define a '<' operator, which returns "true" if the client request on the left-hand side (LHS) was received before the client request on the right-hand side (RHS) of that operator. 
+
+Finally, the last important member of this class is the "incoming_requests_" variable, which is of the "ClientRequestLFQueue" type, which is the lock-free queue that the FIFO sequencer uses to send "MEClientRequest"s to the matching engine. 
+

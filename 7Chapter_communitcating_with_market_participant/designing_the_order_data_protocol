@@ -1,0 +1,13 @@
+Now we will design the public order data protocol the clients will use the send order requests to the exchange and receive order responses from it, specifically the order gateway server. 
+
+First, we will see the format of messages sent from the market paricipant's order gateway to the exchange's order gateway server. 
+We already discussed the "ClientRequestType" enumeration, the "MEClientRequest" struct, and the "ClientRequestLFQueue" typedef. 
+"MEClientRequest" is the internal format used by the matching engine, but "OMClientRequest" is the format that the market paritipants need to use when sending order requests to the exchange order gateway server. 
+Like the market data format, "OMClientRequest" has a sequence number field, "seq_num_", and then the "MEClientRequest" struct after that. 
+The sequence number field here serves a similar purpose as before, to make sure that exchange and cleint's order gateway components are sync with each order. 
+
+We have a symmetrical design of the responses sent from the exchange's order gateway server to the client's order gateway component. 
+The "OMClientResponse" structure is the public format that the market participants will use to receive and process order responses in. 
+Like the other sturctures we saw before, there is a sequence numbre field for synchronization purposes and the remaining payload for this structures is the "MECLientResponse" structure. 
+
+

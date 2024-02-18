@@ -1,0 +1,1 @@
+The design and implementation of the "SnapshotSynthesizer" class, which consumes incremental "MDPMarketDataUpdates" from the "MarketDataPublisher" thread, snthesizes a full snapshot of the order book, and periodically puhsishes the full book snapshot on the snapshot multicast stream

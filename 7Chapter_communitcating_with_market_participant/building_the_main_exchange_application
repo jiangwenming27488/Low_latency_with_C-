@@ -1,0 +1,15 @@
+The "main.cpp" will be a standalone binary application that will run an order gateway server, the mathcing engine, and the market data publisher and perform the following tasks: 
+
+	1) The order gateway server accepts client connections and client requests. 
+
+	2) The matching engine builds the limit order book. 
+
+	3) The matching engine also performs matching between client orders. 
+
+	4) The matching engine and the order gateway server publish client responses. 
+
+	5) The matching engine and the market data publisher pubish incremental market data updates in response to client requests. 
+
+	6) The market data publisher also synthesizes and periodically publishes a full snapshot of the order book. 
+
+

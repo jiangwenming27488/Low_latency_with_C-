@@ -1,0 +1,12 @@
+The "SnapshotSynthesizer" constructor takes an argument of the "MDPMarketUpdateLFQueue" type passed to it from the "MarketDataPublisher" component. 
+It also receives the network interface name and the snapshot IP and port to represent the multicast stream. 
+The consturctor initializes the "snapshot_me_updates_" data member from the argument passed to it and initializes "logger_" with a new filename. 
+It initializes "MeMarketUpdata" "MemPool" to be of the size "ME_MAX_ORDER_IDS". 
+It also initializes "snapshot_socket_" and configures it to publish messages on the snapshot multicast IP and port on the provided network interface. 
+
+We also add a "start()" method here in the same way as we did with our other classes before. 
+THis "start()" method sets the "run_" flag to true, creates and launches a thread, and assigns the "run()" method to the thread. 
+
+
+The destructor for this class is extremely simple; it just calls the "stop()" method. 
+The "stop()" method is also extremely simple and just sets the "run_" flag to false so that the "run()" method exits. 

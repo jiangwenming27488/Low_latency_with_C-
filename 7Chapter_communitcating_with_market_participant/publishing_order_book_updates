@@ -1,0 +1,11 @@
+The main "run()" loop in "MarketDataPublisher" does a couple of important things
+First, it drains the "outgoing_md_updates_" queue by reading any new "MEMarketDataUpdats" published by the matching engine. 
+
+Once it has a "MEMarketUpdate" message from the matching engine, it will proceed to write it ot the "incrememntal_socket_" UDP socket. 
+But it needs to write out the message in the "MDPMarketUpdate" format, which is just a sequence number folled by a "MEMarketUpdate" message. 
+As we saw in the "OrderServer", it will achieve this here by first writing "next_inc_seq_num_", which is the next incremental sequence number to be sent out on the incremental stream, and then write "MEMarketupdate", which it received fromthe matching engine.
+
+
+It needs to do one additional step, which is to write the same incremental update it wrote to the socket to the "snapshot_md_updates_""LQueue" ot inform the "SnapshotSynthesisizer" component about the new incremental update from the matching engine that was sent to the clients
+
+Finally, it incrememnts the incremental stream sequence number tracker for the next message that wil be sent out and calls "sendAndRecv()" on "incremental_socket_" sp that the messages get put on the wire.  

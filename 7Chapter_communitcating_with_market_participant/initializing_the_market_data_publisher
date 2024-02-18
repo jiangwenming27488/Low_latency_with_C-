@@ -1,0 +1,18 @@
+Now, we will look at how to initialize "MarketDataPublisher", and how to start and stop the "MarketDataPublisher" compnent. 
+First, we will look at the constructor, which is presented as follows. 
+The "market_updates" argument passed to it is the "MEMarketUpdateLFQueue" object, which the matching engine will publish market updates on. 
+The consturctor also receives the network interface and two sets of IPs and ports - one for the incremental market data strea and one for the snapshot market data stream. 
+In the constructor, it initializes the "outgoing_md_updates_" member with the argument passed in the constructor and the "snapshot_md_updates_" "LFQueue" to be the size "ME_MAX_MARKET_UPDATES". 
+It also initializes the "logger_" object with a log file for this class and initializes the "incremental_socket_" cariable with the incremental IP and port provided in the consturctor. 
+Finally, it creates a "SnapshotSynthesizer" object and passes the "snapshot_md_updates_" "LFQueue" and the snapshot multicast stream information. 
+
+We also present a "start()" method, which is similar in functionality to the "strart()" method we saw for the "OrderServer" class. 
+First, it sets the "run_" flag to "true", then creates and launches a new thread and assigns the "run()" method to that thread, which will be our main "run" loop for the "MarketDataPublisher" component. 
+It also calls the "start()" method on the "SnapshotSynthesizer" object so that the "SnapshotSynthesizer" thread can also be launched. 
+
+The destructor simple, it calls the "stop()" method to stop the running "MarketDataPublisher" thread, then waits a short amount of time to let the thread finish any pending tasks and deletes the "SnapshotSynthesizer" object. 
+We will see the implementation of the "stop()" method right after the destructor, but it should not be too difficult to guess what that method looks like. 
+
+Finally,the "stop()" method simply sets the "run_" flag to "false" and instructs the "SnapshotSynthesizer" thread to stop as well. 
+
+

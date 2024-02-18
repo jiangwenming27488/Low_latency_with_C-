@@ -1,0 +1,13 @@
+The "MarketDataPublisher" class has the following important members: 
+
+	1) A "next_inc_seq_num" variable of the "size_t" type, which represents the sequence number to set on the next outgoing incremental market data message. We discussed the concepts of the invremental and snapshot market data updates. 
+
+	2) An "outgoing_md_updates_" variable of the "MEMarketUpdateLFQueue" type, which is a lock-free queue of "MEMarketUpdate" messages. We discussed the "MEMarketUpdate" structure. This "LFQueue" is how the matching engine sends the "MEMarketUpdate" messages that the market data publisher then publishes over UDP. 
+
+	3) An "incremental_socket_" member, which is an "McastSocket" to be used to publish UDP messages on the incremental multicast stream. 
+
+	4) A "snapshot_synthesizer_" variable of the "SnapshotSynthesizer" type. This object will be reponsible for generating a snapshot of the limit order book from the updates that the matching engine provides and periodically publishing a snapshot of the full order book on the snapshot multicast stream. 
+
+	5) A lock-free queue instance called "snapshot_md_updates_", which will be of the "MDPMarketUpdateLFQueue" type, which is a lock-free queue containing "MDPMarketUpdate" messages. This queue is used by the market data publisher thread to publish "MDPMarketUpdate" messages that it sends on the incremental stream to the "SnapshotSynthesizer" component. This "LFQueue" is necessary since "SnapshotSynthesizer" runs on a different thread than "MarketDataPublisher", which is primarily so that the snapshot synthesis and publishing process do not slow down the latency-sensitive "MarketDataPublisher" component. 
+
+	6) The last important member of the "MarketDataPubliser" class is the "run_" Boolean variable, which is just used to control when the "MarketdataPublisher" thread is started and stopped. Since it is accessed from differnt threads, like the "run_" variable in the "OrderServer" class, it is also marked as "volatile". 

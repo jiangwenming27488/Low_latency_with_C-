@@ -1,0 +1,2 @@
+THe constructor for the "FIFOSequencer" class is straightforward and self-explanatory. 
+It is presented as follows and initializes "incoming_requests_" "ClientRequestsLFQueue" and "logger_", which are both passed to it in the constructor for this class

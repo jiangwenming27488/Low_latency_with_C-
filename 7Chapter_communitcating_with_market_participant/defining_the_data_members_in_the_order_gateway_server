@@ -1,0 +1,15 @@
+The "OrderServer" class has a few important data members: 
+
+	1) A "tcp_server_" variable, which is an instance of the "Common::TCPSERVER" class, which will be used to host a TCP server to pool for, accept incoming connections from market participants, and poll the established TCP connection to see whether there is a data to be read from any of the connections. 
+
+	2) A "fifo_sequencer_" variable, which is an instance of the "FIFOSequencer" class and is responsible for making sure that client requests that come in on different TCP connections are processed in the correct order in which they come. 
+
+	3) A lock-free queue variable, "outgoing_responses_", of the "ClientResponseLFQueue" type, using which it receives "MEClientResponse" messages from the matching engine, which need to be sent out to the corrent market participant. 
+
+	4) A "std::array" "cid_tcp_socket_" of "TCPSocket" objects of size "ME_MAX_NUM_CLIENTS", which will be used as a hash map from client-id to the "TCPSocket" connection for that client. 
+
+	5) Two "std::array"s also of size "ME_MAX_NUM_CLIENTS" to track the exchange-to-client and client-to-exchange sequence numbers on the "OMClientResponse" and "OMClientRequest" messages. THese are the "cid_next_outgoing_seq_num_" and "cid_next_exp_sequ_num_" variables. 
+
+	6) A Boolean "run_" variable, which will be used to start and stop the "OrderServer" thread. Note that it is marked "volatile" since it will be accessed from different threads, and we want to prevent compiler optimizations here for correct functionality in a multi-threaded environment. 
+
+

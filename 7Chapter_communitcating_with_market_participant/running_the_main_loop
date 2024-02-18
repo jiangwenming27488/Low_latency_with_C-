@@ -1,0 +1,9 @@
+Remember that "SnapshotSynthesizer" runs on its own thread separate from the "MarketDataPublisher thread to not cause latencies on the component that publishes the incremental market data stream. 
+The "run()" method is the method assigned to the "SnpashotSynthesizer" thread. 
+THe only task it performs is checking the "snpashot_md_updates_" lock-free queue for new entries, which the "MarketDataPublisher" sends incremental "MDPMarketUpdate" messages on. 
+For each incremental "MDPMarketUpdate" message it reads, it calls the "addToSnapshot()" method we built earlier. 
+Additionally, it checks the "last_snapshot_time_" variable against the current time obtained from "getCurrentTime()" to see whether a minute has elaspsed. 
+If at least a minute has elapsed since the last time a snapshot was published, it calls the "publishSnapshot()" mehtod to publish a new snapshot. 
+It also remembers the current time as the last time a full snapshot was published. 
+
+

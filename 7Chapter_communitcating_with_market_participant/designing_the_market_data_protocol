@@ -1,0 +1,24 @@
+For the market data protocol, we will define an internal format that the matching engine uses, and a public format meant for the market participants. 
+We saw the internal matching format, that is the "MEMarketUpdate" struct. 
+Now, we will define the public market data format, which will be encapsulated in the "MDPMarketUpdate" struct. 
+Remeber that market data formats can be of serveral types and different complextiy, for example the F.A.S.T. protocol or the SBE protocol. 
+For our market data format, we will use the Simple Binary Encoding (SBE) format, which is simply a binary data format
+
+Before we look at the "MDPMarketUpdate" struct, let us first revisit the "MarketUpdateType" enumeration. 
+We will add the enumeration types of "ClEAR", "SNAPSHOT_START", and "SNAPSHOT_END" -- which will be needed later. 
+	1) The "CLEAR" message is used to notify clients that they should clear/empty the order book on thier end, 
+	
+	2) "SNAPSHOT_START" signifies that a snapshot message is starting,
+
+	3) "SNAPSHOT_END" signifies that all update in the snapshot updated have been delivered. 
+
+
+Our "MDPMarketUpdate" structure contains an important addition over the "MEMarketUpdate" strucure, which is a sequence number field. 
+The "size_t seq_num_" field is an increasing sequence number value for every market update published by the exchange. 
+For every new market update, the sequence number is exactly 1 greater than the previous market update. 
+The sequence number field will be used by the market data consumers in the market participant's trading systems to detect gaps in market updates. Rmember that for our market data publisher, we will publish a market data in UDP format, which is a unreliable protocol. 
+So, when there are drops in packets at the network level, or if a participant's system drops a packet, they can use the sequence number field to detect that, 
+We present the internal "MEMarketUpdate" format again, and the new public "MDPMarketUpdate". 
+
+Hence, "MDPMarketUpdate" is simply "MEMarketUpdate" with a leading "seq_num_" feild. 
+"

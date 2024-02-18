@@ -1,0 +1,21 @@
+The constructor for this class is straightforwad. 
+We initialize the three arrays with some basic values: sequence numbers set to 1 and "TCPSocket"s set to "nullptr". 
+We will also set the two callback members, "recv_callback_" and "recv_finished_callback_", to point to the "recvCallback()" and "recvFinishedCallback()" member functions. 
+The constructor for "OrderServer" accepts pointers to two lock-free queue objects: 
+	1) one to forward "MEClientRequest"s to the matching engine 
+
+	2) one to receive "MEClientResponse"s from the matching engine. 
+
+
+It also accepts a network interface and port to use that the order gateway server will listen to and accept client connections on: 
+
+We will also define a "start()" method, which will set the bool run_ to be true. 
+This is the flag that controls how long main thread will run. 
+We also initialize the "TCPServer" member object to start listening on the interface and port that "OrderServer" was provided in the constructor. 
+Finally, it creates and launches a thread that will execute the "run()" method. 
+
+
+We define a complementary "stop()" method, which simply sets the "run_" flag to false, which will cause the "run()" method to finsih execution. 
+
+The destructor for the "OrderServer" class is also quite simple. 
+It calls the "stop()" method to instruct the main thread to stop execution and then waits a brief period of time for the thread to finish any pending tasks. 

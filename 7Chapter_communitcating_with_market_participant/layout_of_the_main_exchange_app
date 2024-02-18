@@ -1,0 +1,38 @@
+We will create a "Logger", "MatchingEngine", "MarketDataPublisher", and "OrderServer" instance in the global scope. 
+We will also create a singal handling function since this application will be killed when a UNIX signal is sent to it. (This is why you always need to handle platform issues for data, you can never truly know for sure is the matching engine is running of a linux or windows while the marketdataPublisher is running on a different OS). 
+The singal handler cleans up the components and exits.
+
+
+The "main()" function initializes the logger object, installs the signal handler, and sets up three lock-free queues -- "client_requests", of the "ClientRequestLFQueue" type, "client_responses", of the "ClientResponsesLFQueue" type, and "market_updates", of the "MEMarketUdateLFQueue" type -- to facilitate communication between the three major components. 
+
+Then, we create and start the instance of the "MatchingEngine" component and pass the three "LFQueue" (you should pretty much read everything I write to clear up on objects names like this one) objects. 
+
+
+We will also create and start the instance of "MarketDataPublisher" and provide it with the snapshot and incremental stream information and the "market_updates" "LFQueue" object.
+
+The important thing here is that the market data stream IP:port information used by the electronic exchange and trading clients should match, and similarly, the order server IP:port information used by the electronic exchange and trading clients match. 
+
+We perform similar tasks with the "order_server" object - create "OrderServer" and start it after providing it with the order gateway server configuration information. 
+
+Finally, the "main()" thread just sleeps infinitely since the threads within the three components will run the exchange from this point on. 
+
+Running the application as follow will produce some minimal output to screen, but most of the output goes to the log files we create from the three components and their subcomponents. 
+
+We can inspect the log files to see what different components did. 
+Note, however, that the output right now is not super interesting. 
+It simply logs that the components were created and started. 
+This output will have a lot more information once we add clients for this trading exchange that connect and send client requests to it. 
+
+
+The "exchange_main.log" file contains information about the creation of the different components. 
+
+The "exchange_market_data_publisher.log" file creates the UDP sockets and calls the "run()" method. 
+
+The "exchange_matching_engine.log" file does not have much meaningful output yet since no matching was performed and no order book we built. 
+
+The "exchange_order_server.log" file also contains some information about the creation of "TCPServer" and the "run()" method for the main thread. 
+
+
+Finally, the "exchange_snapshot_synthesizer.log" file outputs the messages in an empty snapshot for different trading instruments, since there are no orders in the order book yet. 
+
+

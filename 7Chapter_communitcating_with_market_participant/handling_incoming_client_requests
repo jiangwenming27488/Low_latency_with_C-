@@ -1,0 +1,23 @@
+The client requests are received over TCP connections, and these are dipatched to the "recvCallback()" and "recvFinishedCallback()" methods through the "TCPServer" like we set up in the constructor. 
+
+
+The first code block in this method checks whether the size of the available data is at least as large as a complete "OMClientRequest" struct. 
+Then it breaks up the available data into blocks of size equal to the size of an "OMClientRequest" object, and iterates through the available data. 
+It reinterprets "rcv_buffer_" in "TCPSocket" as an "OMClientRequest" struct and saves it in the request variable, which is of the "OMClientRequest" pointer type. 
+
+ONce it has the "OMClientRequest" it needs to process, it check whether this is the first request from this client. 
+If that is the case, then it tracks the "TCPSocket" instance for this client by adding it to the "cid_tcp_socket_" "std::array", which we are using as a hash map. 
+
+If a "TCPSocket" entry for this client-id already existed in the "cid_tcp_socket_" container, then we would make sure that the previously tracked "TCPSocket" for this client-id mathces the "TCPSocket" for the current request. 
+If they did not match, we log an error and skip processing this request. 
+
+Next, we will perform a sequence number check to make sure that the sequence number on this "OMClientRequest" is exactly what we expect it to be basedon the last message we have seen. 
+If there is a mismatch between the expected and received sequence numbers, then we log on error ignore this request. 
+
+One note here is that in a realistic setup, the exchange will send a reject back to the client if it receives a request on an incorrect socket or if there is a sequence number mismatch, to notify them of the error. 
+We have omitted that here for simplicity's sake, but it is not difficult to add if needed. 
+If we have made it this far in the execution of this loop, then we increment the next expected sequence number on the next "OMClientRequest" for this client and forward this request to the FIFO sequencer data memeber. One important thing to note here is that we also forward "rx_time", which is the software receive time of this TCP packet, to the FIFO sequencer since it will need that information to sequence the requests correctly. 
+
+Remember that the "recvFinishedCallback()" method is called when all the "recvCallback()" methods have been dispatched from the current call to "TCPServer::sendAndRecv()". 
+The "recvFinishedCallback()" method instructs "FIFOSequencer" to correctly order the "MEClientRequests" that it has queueed up and push them to the matching engine. 
+ 

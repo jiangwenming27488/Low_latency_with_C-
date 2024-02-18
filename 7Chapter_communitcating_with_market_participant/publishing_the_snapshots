@@ -1,0 +1,17 @@
+"publisherSnapshot()" is called whenever we want to publish a complete snapshot of the current state of the order book. 
+Before we look at the code to publish the snapshot messages. 
+The format of a full snpashot message looks like the following: 
+
+	1) The first "MDPMarketUpdate" message is of the "MarketUpdateType::SNAPSHOT_START" type with "seq_num_ = 0" to mark the beginning of the snapshot messages. 
+
+	2) Then for each instument, we publish the following: 
+	
+		A) A "MDPMarketUpdate" message of the "MarketUpdateType::CLEAN" type to instruct the client to clear their order book before applying the messages that follow
+
+		B) For each order that exists in the snapshot for this instrument, we publish a "MDPMarketUpdate" message with "MarketUpdateType::ADD" till we have published the information for all the orders. 
+
+	3) Finally, we publish a "MDPMarketUpdate" message of the "MarketUpdateType::SNAPSHOT_END" type to mark the end of the snapshot messages. One thing to note is that for the "SNAPSHOT_START" and "SNAPSHOT_END" messages, we set the "OrderId" value to be the last incremental sequence number that was used to construct this snapshot. The market participants will use this sequence number to synchronize the snapshot market data stream with the incremental market data stream. 
+
+	
+
+
