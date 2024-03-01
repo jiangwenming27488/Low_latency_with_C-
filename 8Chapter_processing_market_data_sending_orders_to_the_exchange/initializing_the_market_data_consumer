@@ -1,0 +1,22 @@
+The constructor for the "MarketDataConsumer" class accepts the following arguments: 
+
+	1) A "client_id" argument of the "Common::ClientId" type, which in this case is used purely to create a unique log filename to be used to initialize the "Logger logger_" component in this class. 
+
+	2) It also expects a pointer to a "MEMarketUpdateLFQueue" lock-fre queue object called "market_updates", where it will publish decoded and in-order market updates. 
+
+	3) It expects the network interface name in the "iface" argument and the addresses of the snapshot and incremental market data streams. These will be passed in the "snapshot_ip" argument, the "snapshot_port" argument, the "incremental_ip" argument, and the "incremental_port" argument. 
+
+
+The constructor performs the following tasks: 
+
+	1) The constructor creates a "Logger" instance for this class and uses that "logger_" object to initialize the "incremental_mcast_socket_" variable and the "snapshot_mcast_socket_" variable. It also initializes the "iface_", "snapshot_ip_", and "snapshot_port_" members from the arguments passed to it. 
+
+	2) Using the "recv_callback()" lambda method, it initializes the "recv_callback_" variablein the "incremental_mcast_socket_" variable and the "snapshot_mcast_socket_" variable. The Lambda just forwards the callbacks to the "recvCallback()" member method in the "MarketDataConsumer" class, which we will see later. The key point here is that we expect the "MarketDataConsumer::recvCallback()" method to be called when there is data available on the incremental or the snapshot multicast sockets. 
+
+	3) The last thing the constructor does is full initialize "incremental_mcast_socket_" by calling the "McastSocket::init()" method, which creates the actual socket internally. It also calls the "McastSocket::join()" method to subscribe to the multicast stream for this socket. Note that we do no t do the same for "snapshot_mcast_socket_" yet. That is done on demand as packet drops or sequence gaps are detected. 
+
+
+We add a "start()" method like what we have seen for our other components on the side of the trading exchange. 
+This sets the "run_" variable to be "true" and creates and launches a thread to execute the "MarketDataConsumer::run()" method. 
+
+The destructor for this class is straigforward and calls the "stop()" method, which simply sets the "run_" flag to "false" to end the execution of the "run()" method. 

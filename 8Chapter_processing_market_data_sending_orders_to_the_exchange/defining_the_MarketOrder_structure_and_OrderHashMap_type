@@ -1,0 +1,11 @@
+First, we will define the "MarketOrder" structure, which represents a single order in the market data stream. 
+This structure contains the "OrderId", "Side", "Price", "Qty", and "Priority" attributes. 
+It also contains a "prev_order_" and a "next_order_" member of type "MarketOrder" pointer since we will chain these objects in a doubly linked list. 
+
+The constructor is straightforward; it simply initializes the fields it is provided in the constructor. 
+
+We also define the "OrderHashMap" type, which is an "std::array" array of "MarketOrder" pointer objects and of size "ME_MAX_ORDER_IDS , in the" same way as we did in the matching engine order book. 
+
+The "toString()" method we will use for logging purposes is self-explanatory. 
+
+

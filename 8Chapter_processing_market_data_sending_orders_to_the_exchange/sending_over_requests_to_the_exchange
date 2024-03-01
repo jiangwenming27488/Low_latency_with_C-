@@ -1,0 +1,11 @@
+In this file I will explain the "run()" method in the "order_gateway.cpp" file, which is the main loop for the "OrderGateway" class. 
+The goal of this method is to send out any client requests that are ready to be sent out on the TCP socket to read any data available on the socket and dispach the "recv_callback_()" method. 
+
+First, it calls the "TCPSocket::sendAndRecv()" method to send and receive data on the established TCP connection. 
+
+It also reads and "MEClientRequest" messages available on the "outgoing_requests_" "LFQueue" sent by the "TradeEngine" engine and writes them to the "tcp_socket_" send buffer using the "TCPSocket::send()" method. 
+Note that it needs to write out "OMClientRequest" messages, which is achieves by first writing the "next_outgoin_seq_num_" field and then the "MEClientRequest" object that the "TradeEngine" sent. 
+This works because we designed the "OMClientRequest" object to be a struct that contains a "size_t seq_num_" field followed by a "MEClientRequest" object. 
+We also increment the "next_outgoing_seq_num_" instance for the next outgoing socket message. 
+
+

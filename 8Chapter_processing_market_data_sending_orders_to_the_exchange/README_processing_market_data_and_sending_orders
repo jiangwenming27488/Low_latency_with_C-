@@ -1,0 +1,7 @@
+Now, we will build the client's system that receives and prorcesses market data updates from the trading exchange. 
+Then also have to deal with creating and reading UDP sockets, dealing with packet losses. 
+then the design of the order book on the client side to track the order book maintained at the trading exchange. 
+Next, implement the components needed to establish and maintain TCP connection to the trading exchange. 
+Last implement functionality to send orders to the exchange from the strategies and receive and process order responses. 
+
+

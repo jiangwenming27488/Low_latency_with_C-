@@ -1,0 +1,41 @@
+This implements important functionality responsible for processing market data updates received on the incremental and the snapshot streams. 
+Market updates on the incremental stream are received during the entire runtime of the "MarketDataConsumer" component. 
+Albeit, data is received and processed from the snapshot stream only when a sequence number gap is detected on the incremental stream, which causes "MarketDataConsumer" to initialize "snapshot_mcast_socket_" and subscribe to the snapshot multicast stream. 
+Remember that in the constructor of "MarketDataConsumer", we intentionally did not fully initialize "snapshot_mcast_socket_" as we did with the "incremental_mcast_socket_". 
+The important thing to understand here is that data on the snapshot socket is only received when we are in recovery mode and not  otherwise. 
+
+In the "recvCallback()" method determines if the data we are processing came from the incremental or snapshot steam by comparing the file discriptor of the socket on which it was receive. 
+The extreamly unlikely edge case that we received data on the snapshot socket but we are not in recovery, we simply log a warning, reset the socket receive buffer index, and return. 
+
+Otherwise, we proceed further and read "Exchange::MDPMarketUpdate" messages from the socket buffer using the same code that we have seen before. 
+We go through the data contained in the "socket->rcv_buffer_" buffer and read it in chunks of size equal to the size of "Echange::MDPMarketUpdate". 
+The goal here is to read as many full "MDPMarketUpdate" messages as possible util we have read them all from the buffer. 
+We use "reinterpret_cast" to convert the data in the buffer to an object of the "Exchange::MDPMarketUpdate" type.
+
+For each "MDPMarketUpdate" message, we check the sequence number on the message we just read to see if there is a sequence number gap or not. 
+We set the "in_recovery_" member flag to be "true" if we detect a sequence number gap or if we were already in recovery. 
+
+Below is the explaining of the "in_recovery_" methods loops: (YOU NEED TO KNOW THIS)
+First, we will see the handling of the message if we are in recovery mode. 
+Next, we first check the "already_in_recovery_" flage to see if we where previously not in recovery and just started recovery due to this message or not. 
+If we were previously not in recovery and started recovery because we saw a sequence number gap, we call the "startSnapShotSync()" method. 
+Just to provide a brief introduction here, the "startSnapshotSync()" method will initialize the "snapshot_mcast_socket_" object and subscribe to the snapshot multicast stream. 
+When in recovery mode and queue up market data updates on both the snapshot and incremental streams. 
+We will do this until we have to complete snapshot of the book from the snapshot stream and all the incremental messages after the snapshot message to catch up with the incremental stream
+
+ 
+For the branch where we are not in recovery and the message we received is from the incremental market data stream, we simply update "nex_exp_inc_seq_num_". 
+This a reminder that the "next_exp_inc_seq_num_" variable tracks the next sequence number we expect on the next incrementl market data update. 
+We then write the "MEMakretUpdate" message to the "incoming_md_updates_" lock-free queue, which will be consumed by the trading engine component on the other end. 
+
+Finally, we SHIT(thank you for reading this and really taking time to learn it means more to me there is poeple really trying to learn this 'shift') the remaining partial data left in the socket's "rcv_buffer_" buffer and update the next valid receive index for the next read. 
+
+THis concludes the implementation of the "recvCallback()" method and we will now look at the methods that handle snapshot subscrition and synchronization logic: 
+
+First, we investigate the "startSnapshotSync()" method, which, prepares the "MarketDataConsumer" class to start the snapshot synchronization mechanism on sequence number gaps. 
+The first thing we do for this task is clear the two "std::map" containers -- "snapshot_queued_msgs_" and "incremental_queued_msgs_", which we used to queue upmarket update messages from the snapshot and invremental streams. 
+THen we initialize the "snapshot_mcast_socket_" object using the "McastSocket::intit()" method so that the socket gets created for the "snap_ip_" and "snapshot_port_" address. 
+Then we call the "McastSocket::join()" method to start the multicast subscription for the snapshot market data stream. 
+We need to make for sure that not only do we have socket that is reading market data, but we also have to issue the IGMP join membership network-level message(as the developer you can see it right ya that data is all yours*this is here you think about member teirs and addons*) so that messages can flow to the application, which is achieved by the call to "snapshot_mcast_socket_.join()". 
+
+

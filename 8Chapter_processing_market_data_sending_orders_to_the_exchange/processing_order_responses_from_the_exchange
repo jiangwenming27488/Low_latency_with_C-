@@ -1,0 +1,19 @@
+The "recvCallback()" method is called when there is data available on the "tcp_socket_" and the "TCPSocket::sendAndRecv()" method is called from the "run()" method. 
+We go through the "rcv_buffer_" buffer on "TCPSocket" and re-interpret the data as "OMClientResponse" messages. 
+
+
+For the "OMClientResponse" message we just read into the response varibale, we check to make sure the client ID on the response matches the "OrderGate"'s client ID and ignore the response if it does not match. 
+
+We also check to make sure that the sequence number on "OMClientResponse" matches what we expect it to be. 
+If there is a mismatch, we log an error and ignore the response. 
+THe is an opportunity to improve the error handling here, but we just log an error and continue. 
+
+
+Finally, we increment the expected sequence number on the next "OMClientResponse" and write the response we just read to the "incoming_responses_" "LFQueue" for the "TradeEngine" to read. 
+It also updates the "rcv_buffer_" buffer and the next receive index into the "TCPSocket" buffer we just consumed some messages from. 
+
+
+With this method inplementation, we have finished the design and implmentation of the "orderGateway" component. 
+That will be all the core infrastructure components we build. 
+
+One important note is that we will need to build all the componets presented in this dir as well as the all the other plus next to make a meaning ful example. I will try to write some improved notes on parts of code that is more complex. I trying to make sure you understand the basics before revisting ML to make sure you know it very important then the CLOUD part which will be LIT!!!!!!!!!!!!!! #OPENSTACK #OpenStackCrazy #OpenStackGangForLife #OpenStackOrDie #YourCloudIsntSwitfThenKeyStoneServerNotLikeYourAuthoInThisPartOfTown #OpenStackNation #YouWantCloudThenYouWantOpenStack

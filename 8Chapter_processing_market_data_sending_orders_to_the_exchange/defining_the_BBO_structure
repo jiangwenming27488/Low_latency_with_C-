@@ -1,0 +1,18 @@
+We needto define another structure that will represent the total quantity avaialable at the best bid and ask price. 
+This will represent the best buy and sell prices available in the market as well as the sum of the quantities of all the orders at these prices. 
+This structure, called BBO, has four members
+
+	1) "bid_price_"
+
+	2) "ask_price_" (both "Price" types to represent the best prices)
+
+	3) "bid_qty_"
+
+	4) "ask_qty_" 
+
+The BBO abstration is used by many different components inside the trade engine. 
+Typically, this is used by components that need a summary of the best market prices and liquidity, instead of the full depth of the book and all the details about each order in the book.
+A component such as the "RiskManager" componenet, which only needs to compute the open Profit and Loss (PnL) for an open position when the top-of-book prices change, does not need access to the full order book and instead can be simplified using a BBO abstration. 
+Other components, such as "FeatureEngine", "PosistionKeeper", "LiquidityTaker", and "MarketMaker", also use the BBO abstration where the full order book is not needed. 
+
+

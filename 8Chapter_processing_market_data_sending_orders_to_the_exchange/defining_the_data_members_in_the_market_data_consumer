@@ -1,0 +1,22 @@
+The "MarketDataConsumer" class we are going to build a couple of important data members as shown in the following bullet list: 
+
+	1) It needs a lock-free "incoming_md_updates_" queue instance of the "Exchange::MEMarketUpdateLFQueue" type, which we defined before. This is meant to be used by "MarketDataConsumer" to publish the "MEMarketUpdate" messages to the trading engine component. 
+
+	2) We will maintain a "next_exp_inc_seq_num_" variable of the "size_t" type, which will be used to make sure that we process updates from the incremental market data stream in the correct order and detect packet drops on the incremental market data stream. 
+
+	3) We will have two multicast subscriber sockets - "incremental_mcast_socket_" and "snapshot_mcast_socket_" of the "Common::McastSocket" types. These correspond to the sockets we will use to subscribe to and consume multicast data from the incremental and snapshot multicasst streams, repectively. 
+
+
+To perform the recovery/synchronization from the snapshot market data stream when needed, we will need to maintain a couple of extra data members, the list below: 
+
+	1) we will store an "in_recovery_" boolean flag to signify if "MarketDataConsumer" detected a packet drop and is currently trying to recover using the snapshot and incremental market data streams. 
+
+	2) Since we will join and leave the snapshot multicast stream as needed, we will have to multicast stream and network interface information in the "iface_" variable, the "snapshot_ip_ variable", and the "snapshot_port_" variable. These represent the network interface to use, the IP address, and the port of the snapshot multicast stream. 
+
+	3) Next, we define a type to queue up messages and order them by their corresponding sequence number. We will use the Standard Template Library (stl) "std::map" type here and parameaterize it to use keys of the "size_t" type (to represent the sequence number of the update), hold objects of "Exchange::MEMarketUpdate", and cal this type "QueuedMarketUpdates" using "typedef". Note "std::map" cause dynamic mem allocations "O(log(N))" thats big 'N' with no divisors ya SLOWWW af. However, we make an exception in this case because snapshot recovery is expected to be rare. 
+
+	4) We create two instances of this "QueuedMarketUpdates" type - "snapshot_queued_msgs_" and "incremental_queued_msgs_", one to queue up "MEMarketUpdate" messages from the snapshot stream and one to queue up "MEMarketUpdate" messages from the incremental stream. 
+
+	5) The "MarketDataConsumer" class is also a different thread of execution. It has a "run_" boolean flage to control the execution of the thread and it is marked "volatile" since it is accessed from different threads. 
+
+

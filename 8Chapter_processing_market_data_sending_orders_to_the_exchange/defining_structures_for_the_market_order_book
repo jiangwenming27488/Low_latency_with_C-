@@ -1,0 +1,7 @@
+First, the same Data structure as "MEOrderBook" and "MarketOrderBook" have identical design. 
+Each order is represented in a "MarketOrder" struct, which is a subset of the "MEOrder" struct we built for the matching engine. 
+We will also have an "OrderHashMap" type, as we did in the matching engine, which will be a hash map from "OrderId" to these "MarketOrder" objects. 
+Orders at the same price are held in a "MarketOrdersAtPrice" struct as we did in the matching engine, which will be a doubly linked list of "MarketOrder" objects. 
+Remember that we need this structure to maintain all the orders with the same price and side attribute and arrange them in FIFO order. 
+We will also build an "OrdersAtPriceHashMap" map, as we did in the matching engine to be a hash map from "Price" to these "MarketOrdersAtPrice" objects. 
+

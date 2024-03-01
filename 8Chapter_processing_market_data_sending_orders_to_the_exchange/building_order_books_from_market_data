@@ -1,0 +1,2 @@
+The trading component needs to process market data updates and build a limit order book like the one that the matching engine builds, except this is a much more limited version of the matching engines order book. 
+

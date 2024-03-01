@@ -1,0 +1,14 @@
+The important data members in the "OrderGateway" class are described as: 
+
+	1) Two lock-free queue pointers. The first one is named "outgoing_requests_" of the "ClientRequestLFQueue" type, which we defined before as an "LFQueue" instance of "MEClientRequest" structures. THe other member is called "incoming_responses_", which is of the "ClientResponseLFQueue" type, which we also defined earlier as an "LFQueue" instance of the "MEClientResponse" strucutres. These will be used by "OrderGateway" to receive order requests and send order responses to the "TradeEngine". 
+
+	2) It also contains a "tcp_socket_" member variable of the "TCPSocket" type, which is the TCP socket client to be used to connect to the exchange order gateway server and to send and receive messages. 
+
+	3) Two "size_t" variables to represent sequence numbers. The first one, "next_outgoing_seq_num_", tracks the sequence number that will be sent on the next outgoing "OMClientRequest" message sent to the exchange. The second one, "next_exp_seq_num_", is used to check and validate that the "OMClientResponse" messages received from the exchange are in sequence. 
+
+	4) A boolean "run_" flag, which serves a similar purpose as in did in all the order components we saw before. It will be used to start and stop the execution of the "OrderGateway" thread and is marked "volatile" since it is accessed from different threads. 
+
+	5) It also saves the network interface in the "iface_" variable and the IP and port of the exchange's order gateway server in the "ip_" and "port_" member variables. 
+
+	6) Last, it stores the "client_id_" variable of the "ClientId" type to make sure that reponses received on the TCP socket are meant for the correct client: 
+

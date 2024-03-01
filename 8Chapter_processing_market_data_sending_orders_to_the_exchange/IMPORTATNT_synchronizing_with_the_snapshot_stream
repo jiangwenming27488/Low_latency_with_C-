@@ -1,0 +1,57 @@
+The "MarketDataCOnsumer::queueMessage()" method receives an "MDPMarketUpdate" message and a flag that captures whether it was received from the snapshot stream or the incremental stream. 
+If the message came over the incremental market data stream, then it adds it to "incremental_queued_msgs_std::map". 
+If it is received over the snapshot stream, then first, it checks to see if a market update for that sequence number already exists in the "snapshot_queued_msgs_" container. 
+If the entry for that sequence number already exists in the container, then that means that we are receiving a new snapshot messages cycle and we were not able to successfully recover from the previous snapshot messages cycle. 
+It clears the "snapshot_queued_msgs_" container since we will have to restart the snapshot recovery process from the beginning. 
+Finally, the "MEMarketUpdate" message is added to the "snapshot_queued_msgs_" container. 
+
+After new messages is queued in the correct container, we call the "checkSnapshotSync()" method to see if we can sucessfully recover from the snapshot and incremental messages we have queued up so far. 
+
+Now, we will inplement the last important method in the "MarketDataConsumer" class - "checkSnapshotSync()", which inspects the queued "MEMarketUpdate" messages in the snapshot and incremental containers to see if we can successfully recover or synchronize with the snapshot and incrementl streams and catch up: 
+
+	1) The logic is to queue up messages received on the snapshot and incremental market data streams. 
+
+	2) Then, when we receive "MarketUpdateType::SNAPSHOT_END", we make sure that no messages were dropped on the snapshot market data stream by checking that there is no gap in the sequence number field on the snapshot messages. 
+
+	3) Then, we inspect the queued market updates from the incremental data stream and check to see if we have messages following the last message that was used to synthesize this round of snapshot messages. We do this by checking if we have market updates in the incremental queue starting with a sequence number equal to the "OrderId + 1" value from the "SNAPSHOT_END" message in the snapshot queue. 
+
+	4) Last, we check to make sure that from that point on in the incremental queued messages, we do not have another gap. 
+
+PLEASE LOOK AT THE 8.2_Eample_state_of_snapshot_and_incremental_queues_when_recovery_is_possible image for better understanding(to me it looks like a 3-node tree (red-back to avoid dynamic allocation) with a hashing-collistion struct(means with an array not linked list for reverse because you have something consuming data from both ends "dequeue") remember the root of any subtree can hold the data from the snapshot. REALLY COOL!)
+
+Now to apply the logic, we first check the "snapshot_queued_msgs_" container to make sure we have a "SNAPSHOT_START" message and a "SNAPSHOT_END" message. 
+We also make sure that we do not have any gaps in the snapshot messages by checking the sequence numbers, which start from zero and increment by one for each message. 
+We find the las sequence number, which was used to synthesize this snapshot from the "SNAPSHOT_END" message and use the order ID field in the message. 
+
+Once we determine that we have a complete sequence of snapshot messages, we check the queue of incremental market data updates. 
+All queued-up incremental messages with a sequence number less than or equal to (said number) will be discarded since the snapshot messages incorperate that information. 
+THen we process/apply all the queued-up incremental updates starting with a sequence numer '#' and making sure that we do not have a gap in the incremental queued-up messages. 
+We achieve that by checking the sequence number field on those messages and making sure there is no gap in it. 
+Once we have processed all the queued-up incremental market data updates, we are done. 
+At this point, we havefinished the recovery/synchronization process and are caught up. 
+Now that we understand how the logic is supposed to work, check out the method under that trading dir tab please. 
+
+For the "checkSnapshotSync()" method: 
+
+	1) We check if the "snapshot_queued_msgs_" container is empty. We cannot recover since we need a full snapshot messages cycle and all the incremental messages from point on the catch up with the incremental stream. 
+
+	2) Next, we need to check is if we have "MEMarketUpdate" of the "MarketUpdateType::SNAPSHOT_START" type. Otherwise, we clear the queue and wait for the next round of snapshot messages. 
+
+	3) Next, we will iterate through the queued snapshot messages and make sure that there is no gap in the snapshot messages we queued up by checking the sequence numbers. Remember that the key in the "snapshot_queued_msgs_" container is actually the "seq_num_" field from the "MDPMarketUpdate" messages. If we detect a gap in the snapshot messages, we set the "have_complete_snapshot" flag to "false" and exit out of the loop. 
+We collect each message from the snapshot queue into the "final_events" container of type "std::vector" of "MEMarketUpdate" messages, which will be the container of all the events we will process if we successfully recover from this snapshot. 
+
+	4) Once we finish the loop, we check the "have_complete_snapshot" flag to see if we found a gap in the snapshot messages or not. If the flag is set to "false", meaning we wound a gap, we clear the "snapshot_queued_msgs_" container and return, since we cannot recover and must wait for the next round of snapshot messages. 
+
+	5) Assuming we made it this far, we extract the last message in the queue of snapshot messages and make sure that it is of the "MarketUpdateType::SNAPSHOT_END" type since we will need to use the "order_id_" field in this message to process the incremental queue of messages. 
+
+	6) Now, we mov on to inspecting the queued incremental messages to see if we can synchronize successfully. We define a "have_complete_incremental" boolean flag, which will represent if we have all the messages from the incremental stream without any gaps. We also set the "next_exp_inc_seq_num_" member variable to be "last_snapshot_msg.order_id_ + 1" from the "SNAPSHOT_END" message. 
+
+	7) Now we iterate through all the messages in our "incremental_queued_msgs_" container. We discard the messages that have sequence numbers less than the "next_exp_inc_seq_num_" variable we just assigned. else-if, we make sure that there are no gaps in the queue of incremental messages by making sure that the sequence number on the next message is equal to "next_exp_inc_seq_num_" and setting the "have_complete_incremental" flag to "false" if we detect a gap. 
+
+	8) If we do not detect a gap in the market update message from the incremental queue, we add it to the "final_events" container as we did before. We also increment the "next_exp_inc_seq_num_" variable, since that is the next sequence number we expect if there are no gaps. 
+
+	9) After exiting the loop, we check the "have_complete_incremental" flag to make sure there was no gap in the queue of incremental updates. If we did find a gap, we clear the "snapshot_queue_msgs_" container and return, since we cannot successfully synchronize. 
+
+	10) At this point, we have successfully recovered, so we iterate through all the "MEMarketUpdate" messages in the "final_events" container and write them to the "incoming_md_updates_" lock-free queue to be sent to the trading engine component. 
+
+	11) Finally, we clear the "snapshot_queued_msgs_" container and the "incremental_queued_msgs_" container and set the "in_recovery_" flag to "false" since we are no longer in recovery mode. Last, we call the "McastSocket::leave()" method on "snapshot_mcast_socket_", since we no longer need to be subscribed to the snapshot stream or receive or process the snapshot messages. 

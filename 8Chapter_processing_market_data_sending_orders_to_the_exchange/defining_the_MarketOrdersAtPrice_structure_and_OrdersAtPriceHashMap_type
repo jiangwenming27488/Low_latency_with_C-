@@ -1,0 +1,13 @@
+The "MarketOrdersAtPrice" struct is identical to the "MEOrdersAtPrice" struct we built for the matching "MEOrderBook" engine. 
+It contains "Side", "Price", and a "MarketOrder" "first_mkt_order_" pointer to represent the beginning of the "MarketOrder"-linked list at this price. 
+It also contains two "MarketOrdersAtPrice" pointers, "prev_entry_" and "next_entry_", since we will create a doubly linked list of "MarketOrdersAtPrice" objects to represent the price levels.
+
+The constructors for this class are self-explanatory. 
+It simply initializes the data members with the arguments provided. 
+
+The "toString()" method is identical to the one in the matching engine. 
+
+Finally, "OrdersAtPriceHashMap" is identical to the one we built for the matching engine. 
+It represents a hash map from "Price" to "MarketOrdersAtPrice" pointers. 
+
+

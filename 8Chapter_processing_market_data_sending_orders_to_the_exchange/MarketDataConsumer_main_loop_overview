@@ -1,0 +1,4 @@
+The "run()" method is simple for our market data consumer component. 
+it simply calls the "sendAndRecv()" method on the "incremental_mcast_socket_" socket and the "snapshot_mcast_socket_" object, which in our case consumes any additional data received on the incremental or snapshot channels and dispatches the callbacks. 
+
+

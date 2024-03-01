@@ -1,0 +1,5 @@
+The order gateway client component in the market participant's traiding infrastructure receives order requests from the trading engine through a lock-free queue and sends order responses back to the trading engine through another lock-free queue. 
+It Also establishes a TCP connection to the order gateway server in the exchange side infrasturcutre. 
+It encodes order requests in the exchange's order format and sends them over the TCP connection. 
+It also consumes order responses sent by the exchange over the TCP connection and decodes them from the order data format. 
+
