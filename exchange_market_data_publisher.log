@@ -1,0 +1,2 @@
+/home/matthew/Documents/Low_Latency_Apps_CPP/10Chapter_trading/common/socket_utils.h:105 createSocket() Mon Mar 25 20:15:30 2024 cfg:SocketCfg[ip:233.252.14.3 iface:lo port:20001 is_udp1 is_listening:0 needs_so_timestamp:0]
+/home/matthew/Documents/Low_Latency_Apps_CPP/10Chapter_trading/exchange/market_data/market_data_publisher.cpp:14 run() Mon Mar 25 20:15:31 2024

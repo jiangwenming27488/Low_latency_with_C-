@@ -1,0 +1,2 @@
+Creating TCPServer on iface:lo port:12345
+/home/matthew/Documents/Low_Latency_Apps_CPP/10Chapter_trading/common/socket_utils.h:105 createSocket() Thu Mar 21 19:08:01 2024 cfg:SocketCfg[ip: iface:lo port:12345 is_udp0 is_listening:1 needs_so_timestamp:1]
