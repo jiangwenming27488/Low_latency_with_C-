@@ -1,0 +1,3 @@
+We will build the trade engine framework in the "TradeEngine" class. 
+This framework ties all the different components we built together -- the "OrderGateway", "MarketDataConsumer", "MakretOrderBook", "FeatureEngine", "positionKeeper", "OrderManager", "RiskManager", "MarketMaker", and "LiquidityTaker", components. 
+

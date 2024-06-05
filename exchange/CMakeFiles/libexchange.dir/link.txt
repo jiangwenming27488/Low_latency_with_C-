@@ -1,0 +1,2 @@
+/usr/bin/ar qc liblibexchange.a CMakeFiles/libexchange.dir/market_data/market_data_publisher.cpp.o CMakeFiles/libexchange.dir/market_data/snapshot_synthesizer.cpp.o CMakeFiles/libexchange.dir/matcher/matching_engine.cpp.o CMakeFiles/libexchange.dir/matcher/me_order.cpp.o CMakeFiles/libexchange.dir/matcher/me_order_book.cpp.o CMakeFiles/libexchange.dir/matcher/unordered_map_me_order_book.cpp.o CMakeFiles/libexchange.dir/order_server/order_server.cpp.o
+/usr/bin/ranlib liblibexchange.a

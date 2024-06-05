@@ -1,0 +1,2 @@
+/usr/bin/ar qc liblibtrading.a CMakeFiles/libtrading.dir/market_data/market_data_consumer.cpp.o CMakeFiles/libtrading.dir/order_gw/order_gateway.cpp.o CMakeFiles/libtrading.dir/strategy/liquidity_taker.cpp.o CMakeFiles/libtrading.dir/strategy/market_maker.cpp.o CMakeFiles/libtrading.dir/strategy/market_order.cpp.o CMakeFiles/libtrading.dir/strategy/market_order_book.cpp.o CMakeFiles/libtrading.dir/strategy/order_manager.cpp.o CMakeFiles/libtrading.dir/strategy/risk_manager.cpp.o CMakeFiles/libtrading.dir/strategy/trade_engine.cpp.o
+/usr/bin/ranlib liblibtrading.a
