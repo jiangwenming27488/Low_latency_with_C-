@@ -14,10 +14,10 @@ int main(int, char **)
 
 	Logger logger("logging_example.log"); 
 
-	logger.log("Logging a char:% and int:% and an unsigned:%\n", c, i, ul); 
-	logger.log("Logging a float:% and a double:%n\n", f, d); 
+	logger.log("Logging a char:% an int:% and an unsigned:%\n", c, i, ul); 
+	logger.log("Logging a float:% and a double:%\n", f, d); 
 	logger.log("Logging a C-string:'%'\n", s); 
-	logger.log("Logging a string'%'\n", ss); 
+	logger.log("Logging a string:'%'\n", ss); 
 
 	return 0; 
 }

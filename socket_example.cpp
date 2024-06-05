@@ -9,7 +9,7 @@ int main(int, char **)
 	std::string time_str_; 
 	Logger logger_("socket_example.log"); 
 
-	auto tcpServerRecvCallback = [&](TCPSocket *socket, Nanos rx_time) noexcept
+	auto tcpServerRecvCallback = [&](TCPSocket *socket, Nanos rx_time) noexcept 
 	{
 		logger_.log("TCPServer::defaultRecvCallback() socket:% len:% rx:%\n", socket->socket_fd_, socket->next_rcv_valid_index_, rx_time); 
 
@@ -19,7 +19,7 @@ int main(int, char **)
 		socket->send(reply.data(), reply.length()); 
 	}; 
 
-	auto tcpServerRecvFinishedCallback = [&]() noexcept
+	auto tcpServerRecvFinishedCallback = [&]() noexcept 
 	{
 		logger_.log("TCPServer::defaultRecvFinishedCallback()\n"); 
 	}; 
@@ -36,7 +36,7 @@ int main(int, char **)
 	const std::string ip = "127.0.0.1"; 
 	const int port = 12345; 
 
-	logger_.log("Creating TCPServer on iface:% port:%\n", iface, port); 
+	logger_.log("Creating TCPServer on iface:% port:%\n", iface, port);
 	TCPServer server(logger_); 
 	server.recv_callback_ = tcpServerRecvCallback; 
 	server.recv_finished_callback_ = tcpServerRecvFinishedCallback; 

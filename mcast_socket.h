@@ -8,7 +8,7 @@
 
 namespace Common
 {
-	/*Size of send and receive buffers in bytes*/
+	/*Size of send and receive buffers in bytes.*/
 	constexpr size_t McastBufferSize = 64 * 1024 * 1024; 
 
 	struct McastSocket
@@ -19,21 +19,22 @@ namespace Common
 			inbound_data_.resize(McastBufferSize); 
 		}
 
-		/*Initializer multicast socket to read from or publish to a stream 
-		 * Does not join the multicast stream yet*/
+		/*Initialize multicast socket to read from or publish to a stream
+		 * Does not join the multicast stream yet.*/
 		auto init(const std::string &ip, const std::string &iface, int port, bool is_listening) -> int; 
 
-		/*Add / Join Membership / subscription to a multicast stream*/
+		/*Add / Join membership / subscription to a multicast stream*/
 		auto join(const std::string &ip) -> bool; 
 
-		/*Remove / leave membership / subscription to a multicast stream*/
+		/*Remove / Leave membership / subscription to a multicast stream*/
 		auto leave(const std::string &ip, int port) -> void; 
 
-		/*Publish outgoing data and read incoming data*/
+		/*Publish outgoing data and read incoming data */
 		auto sendAndRecv() noexcept -> bool; 
 
-		/*Copy data to send buffers - does not send them out yet*/
+		/*Copy data to send buffers - does not  send them out yet.*/
 		auto send(const void *data, size_t len) noexcept -> void; 
+
 		int socket_fd_ = -1; 
 
 		/*Send and receive buffers, typically only one or the other is needed, not both*/

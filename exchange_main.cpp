@@ -4,13 +4,13 @@
 #include "market_data/market_data_publisher.h"
 #include "order_server/order_server.h"
 
-/*Main components, made global to be accessible from the signal handler*/
+/*Main components, made global to be acessible from the singal handler*/
 Common::Logger *logger = nullptr; 
 Exchange::MatchingEngine *matching_engine = nullptr; 
 Exchange::MarketDataPublisher *market_data_publisher = nullptr; 
 Exchange::OrderServer *order_server = nullptr; 
 
-/*Shut down gracefully on external signal to this server*/
+/*Shut down gracefully on external signals to this server*/
 void signal_handler(int)
 {
 	using namespace std::literals::chrono_literals; 
@@ -36,17 +36,17 @@ int main(int, char **)
 
 	std::signal(SIGINT, signal_handler); 
 
-	const int sleep_time = 100 * 1000; 
+	const int sleep_time = 100 * 100; 
 
-	/*The lock free queues to facilitate communication between order server <-> matching engine and matching engine -> marke data publisher*/
+	/*The lock free queue to faciltate communication betwene order server <-> matching engine and matching engine -> market data publisher.*/
 	Exchange::ClientRequestLFQueue client_requests(ME_MAX_CLIENT_UPDATES); 
 	Exchange::ClientResponseLFQueue client_responses(ME_MAX_CLIENT_UPDATES); 
 	Exchange::MEMarketUpdateLFQueue market_updates(ME_MAX_MARKET_UPDATES); 
 
 	std::string time_str; 
 
-	logger->log("%:% %() % Starting Matching Engine...\n", __FILE__, __LINE__, __FUNCTION__, Common::getCurrentTimeStr(&time_str)); /*YES its "&time_str" I had to check myself too*/ 
-	matching_engine = new Exchange::MatchingEngine(&client_requests, &client_responses, &market_updates);
+	logger->log("%:% %() % Starting Matching Engine...\n", __FILE__, __LINE__, __FUNCTION__, Common::getCurrentTimeStr(&time_str)); 
+	matching_engine = new Exchange::MatchingEngine(&client_requests, &client_responses, &market_updates); 
 	matching_engine->start(); 
 
 	const std::string mkt_pub_iface = "lo"; 
